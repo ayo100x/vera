@@ -42,6 +42,76 @@ const DEMO_OUTFIT = {
   ],
 };
 
+const CHEAPER_ITEMS = [
+  {
+    id: "c1",
+    name: "Black relaxed shirt",
+    price: 18500,
+    match: 88,
+    image:
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
+  },
+  {
+    id: "c2",
+    name: "Off-white wide trousers",
+    price: 22000,
+    match: 85,
+    image:
+      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
+  },
+  {
+    id: "c3",
+    name: "Tan slip-ons",
+    price: 24000,
+    match: 87,
+    image:
+      "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
+  },
+  {
+    id: "c4",
+    name: "Slim gold watch",
+    price: 24500,
+    match: 82,
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
+  },
+];
+
+const PREMIUM_ITEMS = [
+  {
+    id: "p1",
+    name: "Black Italian cotton shirt",
+    price: 52000,
+    match: 93,
+    image:
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
+  },
+  {
+    id: "p2",
+    name: "Cream tailored trousers",
+    price: 58000,
+    match: 91,
+    image:
+      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
+  },
+  {
+    id: "p3",
+    name: "Brown leather loafers",
+    price: 65000,
+    match: 95,
+    image:
+      "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
+  },
+  {
+    id: "p4",
+    name: "Gold dress watch",
+    price: 78000,
+    match: 90,
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
+  },
+];
+
 const Hero = () => {
   const steps = [
     "VERA is looking at your image…",
@@ -235,9 +305,9 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="space-y-8"
+              className="space-y-9"
             >
-              {/* What VERA understood */}
+              {/* Header */}
               <div className="flex items-start justify-between gap-4">
                 <div className="max-w-md">
                   <motion.p
@@ -245,15 +315,24 @@ const Hero = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-[13px] text-vera-gray"
                   >
-                    4 pieces recognised
+                    {selected === "cheaper" || selected === "premium"
+                      ? `${DEMO_OUTFIT.items.length} original matches`
+                      : `${DEMO_OUTFIT.items.length} pieces recognised`}
                   </motion.p>
+
                   <motion.h3
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 }}
-                    className="mt-1 font-display text-[1.75rem] leading-[1.15] tracking-tight md:text-[2.15rem]"
+                    className="mt-1.5 font-display text-[1.75rem] leading-[1.12] tracking-tight md:text-[2.15rem]"
                   >
-                    Closest matches to what you showed us
+                    {selected === "cheaper"
+                      ? "Find it for less"
+                      : selected === "premium"
+                        ? "Better versions"
+                        : selected === "complete"
+                          ? "Get the full look"
+                          : "Closest matches to what you showed us"}
                   </motion.h3>
                 </div>
 
@@ -262,63 +341,195 @@ const Hero = () => {
                     setStage("idle");
                     setSelected(null);
                   }}
-                  className="mt-0.5 flex shrink-0 items-center gap-1.5 text-[13px] text-vera-gray transition hover:text-vera-black"
+                  className="mt-1 flex shrink-0 items-center gap-1.5 text-[13px] text-vera-gray transition hover:text-vera-black"
                 >
                   <X size={14} strokeWidth={1.75} />
                   Start over
                 </button>
               </div>
 
-              {/* Identified products */}
-              <div className="grid grid-cols-2 gap-x-3.5 gap-y-6 md:grid-cols-4 md:gap-x-5">
-                {DEMO_OUTFIT.items.map((item, i) => (
+              {/* Quiet original reference — only in alternative modes */}
+              <AnimatePresence>
+                {(selected === "cheaper" || selected === "premium") && (
                   <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.12 + i * 0.06, duration: 0.35 }}
-                    className="group"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="flex items-end gap-3"
                   >
-                    <div className="relative mb-3 aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
-                      />
-                      {i === 0 && (
-                        <span className="absolute bottom-2 left-2 rounded bg-white/95 px-2 py-0.5 text-[11px] font-medium text-vera-black">
-                          Closest
-                        </span>
-                      )}
+                    <div className="flex gap-2">
+                      {DEMO_OUTFIT.items.map((item) => (
+                        <div
+                          key={item.id}
+                          className="h-14 w-11 overflow-hidden rounded-md bg-vera-warm sm:h-16 sm:w-12"
+                        >
+                          <img
+                            src={item.image}
+                            alt=""
+                            className="h-full w-full object-cover opacity-60"
+                          />
+                        </div>
+                      ))}
                     </div>
 
-                    <p className="text-[13px] font-medium leading-snug">
-                      {item.name}
-                    </p>
-                    <div className="mt-1 flex items-baseline justify-between gap-2">
-                      <span className="text-[13px] tabular-nums">
-                        ₦{item.price.toLocaleString()}
-                      </span>
-                      <span className="text-[11px] tabular-nums text-vera-gray">
-                        {item.match}%
-                      </span>
-                    </div>
+                    <button
+                      onClick={() => setSelected(null)}
+                      className="mb-1 text-[12px] text-vera-gray transition hover:text-vera-black"
+                    >
+                      Closest matches
+                    </button>
                   </motion.div>
-                ))}
-              </div>
+                )}
+              </AnimatePresence>
 
-              {/* Next actions */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="space-y-3.5 border-t border-vera-border pt-7"
-              >
-                <p className="text-center text-[12.5px] text-vera-gray">
-                  Decide what to do with these matches
-                </p>
+              {/* Main content */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selected || "closest"}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.28 }}
+                >
+                  {selected === "complete" ? (
+                    /* Full look — one calm composition */
+                    <div className="mx-auto max-w-xl text-center">
+                      <div className="flex justify-center gap-2 sm:gap-2.5">
+                        {DEMO_OUTFIT.items.map((item, i) => (
+                          <motion.div
+                            key={item.id}
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.04 }}
+                            className="w-[4.5rem] sm:w-24"
+                          >
+                            <div className="aspect-[3/4] overflow-hidden rounded-lg bg-vera-warm">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
 
-                <div className="flex flex-wrap justify-center gap-2">
+                      <p className="mt-8 font-display text-[2.1rem] tracking-tight tabular-nums">
+                        ₦
+                        {DEMO_OUTFIT.items
+                          .reduce((sum, item) => sum + item.price, 0)
+                          .toLocaleString()}
+                      </p>
+
+                      <p className="mx-auto mt-2 max-w-sm text-[13px] leading-relaxed text-vera-gray">
+                        {DEMO_OUTFIT.items.map((item) => item.name).join(" · ")}
+                      </p>
+
+                      <button className="mt-7 rounded-full bg-vera-black px-8 py-3 text-[13px] text-white transition hover:bg-black">
+                        Get the full look
+                      </button>
+                    </div>
+                  ) : (
+                    /* Product grid — closest / cheaper / premium */
+                    <div
+                      className={`grid gap-x-4 gap-y-7 ${
+                        (selected === "cheaper"
+                          ? CHEAPER_ITEMS
+                          : selected === "premium"
+                            ? PREMIUM_ITEMS
+                            : DEMO_OUTFIT.items
+                        ).length <= 2
+                          ? "mx-auto max-w-md grid-cols-2"
+                          : "grid-cols-2 md:grid-cols-4"
+                      }`}
+                    >
+                      {(selected === "cheaper"
+                        ? CHEAPER_ITEMS
+                        : selected === "premium"
+                          ? PREMIUM_ITEMS
+                          : DEMO_OUTFIT.items
+                      ).map((item, i) => (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, y: 14 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: 0.04 + i * 0.05,
+                            duration: 0.32,
+                          }}
+                          className="group"
+                        >
+                          <div className="mb-3 aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+                            />
+                          </div>
+
+                          <p className="text-[13px] font-medium leading-snug">
+                            {item.name}
+                          </p>
+                          <div className="mt-1 flex items-baseline justify-between gap-2">
+                            <span className="text-[13px] tabular-nums">
+                              ₦{item.price.toLocaleString()}
+                            </span>
+                            <span className="text-[11px] tabular-nums text-vera-gray">
+                              {item.match}%
+                            </span>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Actions */}
+              {selected !== "complete" && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="space-y-3.5 border-t border-vera-border pt-7"
+                >
+                  <p className="text-center text-[12.5px] text-vera-gray">
+                    {selected
+                      ? "Explore another direction"
+                      : "Decide what to do with these matches"}
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {[
+                      { key: "cheaper", label: "Find it for less" },
+                      { key: "premium", label: "Better versions" },
+                      { key: "complete", label: "Get the full look" },
+                    ].map((opt) => (
+                      <button
+                        key={opt.key}
+                        onClick={() =>
+                          setSelected(selected === opt.key ? null : opt.key)
+                        }
+                        className={`rounded-full px-4.5 py-2.5 text-[13px] transition ${
+                          selected === opt.key
+                            ? "bg-vera-black text-white"
+                            : "border border-vera-border bg-white text-vera-black hover:border-vera-black"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* When in complete mode, still allow switching modes */}
+              {selected === "complete" && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex flex-wrap justify-center gap-2 pt-2"
+                >
                   {[
                     { key: "cheaper", label: "Find it for less" },
                     { key: "premium", label: "Better versions" },
@@ -338,91 +549,8 @@ const Hero = () => {
                       {opt.label}
                     </button>
                   ))}
-                </div>
-              </motion.div>
-
-              {/* Contextual panels */}
-              <AnimatePresence mode="wait">
-                {selected === "cheaper" && (
-                  <motion.div
-                    key="cheaper"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-vera-border bg-white px-5 py-5 md:px-6"
-                  >
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-[14px] font-medium">
-                          Lower price, same direction
-                        </p>
-                        <p className="mt-1 max-w-sm text-[13px] leading-relaxed text-vera-gray">
-                          Alternatives that keep the silhouette and palette.
-                          From ₦89,000 for the set.
-                        </p>
-                      </div>
-                      <button className="shrink-0 rounded-full bg-vera-black px-6 py-2.5 text-[13px] text-white transition hover:bg-black">
-                        Show options
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-
-                {selected === "premium" && (
-                  <motion.div
-                    key="premium"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-vera-border bg-white px-5 py-5 md:px-6"
-                  >
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-[14px] font-medium">
-                          Higher quality, same look
-                        </p>
-                        <p className="mt-1 max-w-sm text-[13px] leading-relaxed text-vera-gray">
-                          Better fabrics and finishing while staying true to
-                          what you showed us.
-                        </p>
-                      </div>
-                      <button className="shrink-0 rounded-full bg-vera-black px-6 py-2.5 text-[13px] text-white transition hover:bg-black">
-                        Show options
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-
-                {selected === "complete" && (
-                  <motion.div
-                    key="complete"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-2xl bg-vera-warm px-5 py-5 md:px-6"
-                  >
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-[12.5px] text-vera-gray">
-                          All four pieces
-                        </p>
-                        <p className="mt-0.5 font-display text-[1.65rem] tracking-tight tabular-nums">
-                          ₦136,000
-                        </p>
-                        <p className="mt-1 text-[13px] text-vera-gray">
-                          Shirt, trousers, loafers, watch
-                        </p>
-                      </div>
-                      <button className="shrink-0 rounded-full bg-vera-black px-6 py-2.5 text-[13px] text-white transition hover:bg-black">
-                        Get the look
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
