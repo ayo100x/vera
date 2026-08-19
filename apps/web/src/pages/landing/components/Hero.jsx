@@ -255,48 +255,87 @@ const Hero = () => {
           )}
 
           {/* ANALYZING */}
-          {stage === "analyzing" && (
-            <motion.div
-              key="analyzing"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-32"
-            >
-              <div className="relative mb-8 h-64 w-48 overflow-hidden rounded-xl">
-                <img
-                  src={image || DEMO_OUTFIT.source}
-                  alt="Analyzing outfit"
-                  className="h-full w-full object-cover opacity-60"
-                />
+{stage === "analyzing" && (
+  <motion.div
+    key="analyzing"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.35 }}
+    className="flex flex-col items-center justify-center py-20 md:py-28"
+  >
+    <div className="relative w-full max-w-[11.5rem] sm:max-w-[13rem]">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
+        <img
+          src={image || DEMO_OUTFIT.source}
+          alt="Analyzing"
+          className="h-full w-full object-cover"
+        />
 
-                <motion.div
-                  className="absolute inset-0 border-2 border-white/80"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.5,
-                  }}
-                />
-              </div>
+        {/* Soft veil */}
+        <div className="absolute inset-0 bg-vera-black/10" />
 
-              <motion.div
-                animate={{
-                  opacity: [0.4, 1, 0.4],
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 1.2,
-                }}
-                className="flex items-center gap-3 text-sm"
-              >
-                <Sparkles size={16} />
-                {steps[analysisStep]} {/**display steps  */}
-              </motion.div>
-            </motion.div>
-          )}
+        {/* Vertical scan line */}
+        <motion.div
+          className="absolute inset-x-0 h-[1.5px] bg-white/70"
+          initial={{ top: "0%" }}
+          animate={{ top: ["0%", "100%", "0%"] }}
+          transition={{
+            duration: 2.8,
+            ease: "easeInOut",
+            repeat: Infinity,
+          }}
+        />
+
+        {/* Soft band trailing the scan */}
+        <motion.div
+          className="absolute inset-x-0 h-16 bg-gradient-to-b from-white/20 to-transparent"
+          initial={{ top: "0%" }}
+          animate={{ top: ["0%", "100%", "0%"] }}
+          transition={{
+            duration: 2.8,
+            ease: "easeInOut",
+            repeat: Infinity,
+          }}
+        />
+      </div>
+    </div>
+
+    <div className="mt-10 w-full max-w-xs text-center">
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={analysisStep}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.25 }}
+          className="text-[13.5px] leading-relaxed text-vera-black"
+        >
+          {steps[Math.min(analysisStep, steps.length - 1)]}
+        </motion.p>
+      </AnimatePresence>
+
+      {/* Progress marks */}
+      <div className="mt-6 flex items-center justify-center gap-1.5">
+        {steps.map((_, i) => (
+          <motion.div
+            key={i}
+            className="h-[2px] rounded-full"
+            initial={false}
+            animate={{
+              width: i === Math.min(analysisStep, steps.length - 1) ? 20 : 8,
+              backgroundColor:
+                i <= Math.min(analysisStep, steps.length - 1)
+                  ? "#0A0A0A"
+                  : "#E8E4DF",
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        ))}
+      </div>
+    </div>
+  </motion.div>
+)}
 
           {/* RESULTS */}
           {stage === "results" && (
