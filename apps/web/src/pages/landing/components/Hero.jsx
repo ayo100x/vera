@@ -171,6 +171,10 @@ const Hero = () => {
     setAnalysisStep(0);
     setStage("analyzing");
 
+    document.getElementById("heroId")?.scrollIntoView({
+      behavior: "smooth",
+    });
+
     setTimeout(() => {
       setStage("results");
     }, 4000);
@@ -202,7 +206,7 @@ const Hero = () => {
       </div>
 
       {/* Interactive Demo */}
-      <div className="relative mx-auto max-w-5xl">
+      <div className="relative mx-auto max-w-5xl scroll-mt-50" id="heroId">
         <AnimatePresence mode="wait">
           {/* IDLE */}
           {stage === "idle" && (
@@ -582,6 +586,7 @@ const Hero = () => {
                           ? PREMIUM_ITEMS
                           : DEMO_OUTFIT.items
                       ).map((item, i) => (
+                        // product - card
                         <motion.div
                           key={item.id}
                           initial={{ opacity: 0, y: 14 }}
