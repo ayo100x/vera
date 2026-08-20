@@ -124,11 +124,15 @@ const Hero = () => {
   const [selected, setSelected] = useState(null);
   const [image, setImage] = useState(null);
   const [analysisStep, setAnalysisStep] = useState(0);
+  const [query, setQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState("");
+  const [inputMode, setInputMode] = useState("");
 
   const fileSelect = useRef(null);
 
   const startDemo = () => {
-    setStage("analyzing");
+    setInputMode("image");
+    setStage("analyzing"); // set to analyzing stage - analyzing stage should have two ui for 2 diff use case image and text
 
     setTimeout(() => {
       // set a 3 second second timeout before setting stage to results
@@ -156,6 +160,20 @@ const Hero = () => {
       const fileToURL = URL.createObjectURL(file); // create url for image file
       setImage(fileToURL);
     }
+  };
+
+  const handleTextSearch = () => {
+    if (!query.trim()) return;
+
+    setSubmittedQuery(query);
+    setQuery("");
+    setInputMode("text");
+    setAnalysisStep(0);
+    setStage("analyzing");
+
+    setTimeout(() => {
+      setStage("results");
+    }, 4000);
   };
 
   return (
@@ -254,88 +272,161 @@ const Hero = () => {
             </motion.div>
           )}
 
-          {/* ANALYZING */}
-{stage === "analyzing" && (
-  <motion.div
-    key="analyzing"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.35 }}
-    className="flex flex-col items-center justify-center py-20 md:py-28"
-  >
-    <div className="relative w-full max-w-[11.5rem] sm:max-w-[13rem]">
-      <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
-        <img
-          src={image || DEMO_OUTFIT.source}
-          alt="Analyzing"
-          className="h-full w-full object-cover"
-        />
+          {/* ANALYZING - IMAGE */}
+          {stage === "analyzing" && inputMode === "image" && (
+            <motion.div
+              key="analyzing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35 }}
+              className="flex flex-col items-center justify-center py-20 md:py-28"
+            >
+              <div className="relative w-full max-w-[11.5rem] sm:max-w-[13rem]">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
+                  <img
+                    src={image || DEMO_OUTFIT.source}
+                    alt="Analyzing"
+                    className="h-full w-full object-cover"
+                  />
 
-        {/* Soft veil */}
-        <div className="absolute inset-0 bg-vera-black/10" />
+                  {/* Soft veil */}
+                  <div className="absolute inset-0 bg-vera-black/10" />
 
-        {/* Vertical scan line */}
-        <motion.div
-          className="absolute inset-x-0 h-[1.5px] bg-white/70"
-          initial={{ top: "0%" }}
-          animate={{ top: ["0%", "100%", "0%"] }}
-          transition={{
-            duration: 2.8,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-        />
+                  {/* Vertical scan line */}
+                  <motion.div
+                    className="absolute inset-x-0 h-[1.5px] bg-white/70"
+                    initial={{ top: "0%" }}
+                    animate={{ top: ["0%", "100%", "0%"] }}
+                    transition={{
+                      duration: 2.8,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                    }}
+                  />
 
-        {/* Soft band trailing the scan */}
-        <motion.div
-          className="absolute inset-x-0 h-16 bg-gradient-to-b from-white/20 to-transparent"
-          initial={{ top: "0%" }}
-          animate={{ top: ["0%", "100%", "0%"] }}
-          transition={{
-            duration: 2.8,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-        />
-      </div>
-    </div>
+                  {/* Soft band trailing the scan */}
+                  <motion.div
+                    className="absolute inset-x-0 h-16 bg-gradient-to-b from-white/20 to-transparent"
+                    initial={{ top: "0%" }}
+                    animate={{ top: ["0%", "100%", "0%"] }}
+                    transition={{
+                      duration: 2.8,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                    }}
+                  />
+                </div>
+              </div>
 
-    <div className="mt-10 w-full max-w-xs text-center">
-      <AnimatePresence mode="wait">
-        <motion.p
-          key={analysisStep}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -4 }}
-          transition={{ duration: 0.25 }}
-          className="text-[13.5px] leading-relaxed text-vera-black"
-        >
-          {steps[Math.min(analysisStep, steps.length - 1)]}
-        </motion.p>
-      </AnimatePresence>
+              <div className="mt-10 w-full max-w-xs text-center">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={analysisStep}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.25 }}
+                    className="text-[13.5px] leading-relaxed text-vera-black"
+                  >
+                    {steps[Math.min(analysisStep, steps.length - 1)]}
+                  </motion.p>
+                </AnimatePresence>
 
-      {/* Progress marks */}
-      <div className="mt-6 flex items-center justify-center gap-1.5">
-        {steps.map((_, i) => (
-          <motion.div
-            key={i}
-            className="h-[2px] rounded-full"
-            initial={false}
-            animate={{
-              width: i === Math.min(analysisStep, steps.length - 1) ? 20 : 8,
-              backgroundColor:
-                i <= Math.min(analysisStep, steps.length - 1)
-                  ? "#0A0A0A"
-                  : "#E8E4DF",
-            }}
-            transition={{ duration: 0.3 }}
-          />
-        ))}
-      </div>
-    </div>
-  </motion.div>
-)}
+                {/* Progress marks */}
+                <div className="mt-6 flex items-center justify-center gap-1.5">
+                  {steps.map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="h-[2px] rounded-full"
+                      initial={false}
+                      animate={{
+                        width:
+                          i === Math.min(analysisStep, steps.length - 1)
+                            ? 20
+                            : 8,
+                        backgroundColor:
+                          i <= Math.min(analysisStep, steps.length - 1)
+                            ? "#0A0A0A"
+                            : "#E8E4DF",
+                      }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ANALYZING — TEXT */}
+          {stage === "analyzing" && inputMode === "text" && (
+            <motion.div
+              key="analyzing-text"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35 }}
+              className="flex flex-col items-center justify-center px-2 py-20 md:py-28"
+            >
+              <div className="w-full max-w-lg text-center">
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="font-display text-[1.65rem] leading-[1.2] tracking-tight text-vera-black sm:text-[1.9rem] md:text-[2.15rem]"
+                >
+                  “{submittedQuery || "clean wedding outfit under ₦150k"}”
+                </motion.p>
+
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
+                  className="mx-auto mt-8 h-px w-16 origin-center bg-vera-border"
+                />
+
+                <div className="mt-8">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={analysisStep}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.25 }}
+                      className="text-[13.5px] leading-relaxed text-vera-gray"
+                    >
+                      {
+                        [
+                          "VERA is understanding your request…",
+                          "Picking up the details…",
+                          "Finding pieces that fit…",
+                          "Comparing the strongest matches…",
+                        ][Math.min(analysisStep, 3)]
+                      }
+                    </motion.p>
+                  </AnimatePresence>
+
+                  <div className="mt-6 flex items-center justify-center gap-1.5">
+                    {[0, 1, 2, 3].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="h-[2px] rounded-full"
+                        initial={false}
+                        animate={{
+                          width: i === Math.min(analysisStep, 3) ? 20 : 8,
+                          backgroundColor:
+                            i <= Math.min(analysisStep, 3)
+                              ? "#0A0A0A"
+                              : "#E8E4DF",
+                        }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* RESULTS */}
           {stage === "results" && (
@@ -365,13 +456,15 @@ const Hero = () => {
                     transition={{ delay: 0.05 }}
                     className="mt-1.5 font-display text-[1.75rem] leading-[1.12] tracking-tight md:text-[2.15rem]"
                   >
-                    {selected === "cheaper"
-                      ? "Find it for less"
-                      : selected === "premium"
-                        ? "Better versions"
-                        : selected === "complete"
-                          ? "Get the full look"
-                          : "Closest matches to what you showed us"}
+                    {inputMode === "text"
+                      ? "Strong matches for your search"
+                      : selected === "cheaper"
+                        ? "Find it for less"
+                        : selected === "premium"
+                          ? "Better versions"
+                          : selected === "complete"
+                            ? "Get the full look"
+                            : "Closest matches to what you showed us"}
                   </motion.h3>
                 </div>
 
@@ -600,11 +693,20 @@ const Hero = () => {
         <div className="relative">
           <input
             type="text"
-            placeholder="What are you looking for? e.g. clean wedding outfit under ₦150k"
+            placeholder={
+              stage === "results"
+                ? "Ask VERA to refine these results..."
+                : "What are you looking for? e.g. clean wedding outfit under ₦150k"
+            }
             className="w-full rounded-full border border-vera-border bg-white py-4 pl-6 pr-14 text-sm focus:outline-none focus:ring-1 focus:ring-vera-black"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
 
-          <button className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-vera-black text-white">
+          <button
+            onClick={handleTextSearch}
+            className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-vera-black text-white"
+          >
             <Search size={16} />
           </button>
         </div>
