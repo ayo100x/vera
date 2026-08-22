@@ -112,7 +112,7 @@ const PREMIUM_ITEMS = [
   },
 ];
 
-const Hero = () => {
+const Hero = ({ heroImage, resetHeroMessage }) => {
   const steps = [
     "VERA is looking at your image…",
     "Identifying the pieces…",
@@ -154,6 +154,15 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [stage]);
 
+  useEffect(() => {
+    if (heroImage) {
+      setImage(heroImage);
+      setInputMode("image");
+      setSelected(null);
+      setStage("results");
+    }
+  }, [heroImage]);
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -181,7 +190,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-5 pb-20 pt-28">
+    <section className="mx-auto max-w-7xl px-5 pb-20 pt-28 ">
       {/* Hero heading */}
       <div className="mx-auto mb-14 max-w-3xl text-center">
         <motion.h1
@@ -220,7 +229,7 @@ const Hero = () => {
               {/* Inspiration image */}
               <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-vera-border bg-vera-warm">
                 <img
-                  src={image || DEMO_OUTFIT.source}
+                  src={image || heroImage || DEMO_OUTFIT.source}
                   alt={image ? "User uploaded image" : "VERA demo"}
                   className="h-full w-full object-cover"
                 />
@@ -229,13 +238,19 @@ const Hero = () => {
 
                 <div className="absolute bottom-6 left-6 right-6 text-white">
                   <p className="text-sm opacity-80">
-                    {image ? "Your image" : "Seen on Instagram"}
+                    {image
+                      ? "Your image"
+                      : heroImage
+                        ? "Selected from VERA"
+                        : "Seen on Instagram"}
                   </p>
 
                   <p className="mt-1 font-medium">
                     {image
                       ? "Ready for VERA to find it."
-                      : "Oversized yellow hoodie + yellow pant"}
+                      : heroImage
+                        ? "Ready to recreate this look."
+                        : "Oversized yellow hoodie + yellow pant"}
                   </p>
                 </div>
               </div>
@@ -289,7 +304,7 @@ const Hero = () => {
               <div className="relative w-full max-w-[11.5rem] sm:max-w-[13rem]">
                 <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
                   <img
-                    src={image || DEMO_OUTFIT.source}
+                    src={image || heroImage || DEMO_OUTFIT.source}
                     alt="Analyzing"
                     className="h-full w-full object-cover"
                   />
@@ -476,6 +491,8 @@ const Hero = () => {
                   onClick={() => {
                     setStage("idle");
                     setSelected(null);
+                    resetHeroMessage();
+                    setImage(DEMO_OUTFIT.source);
                   }}
                   className="mt-1 flex shrink-0 items-center gap-1.5 text-[13px] text-vera-gray transition hover:text-vera-black"
                 >

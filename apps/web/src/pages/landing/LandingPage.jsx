@@ -1,3 +1,4 @@
+import { useState } from "react"
 import AIStylistDemo from "./components/AIStylistDemo"
 import FinalCTA from "./components/FinalCTA"
 import Footer from "./components/Footer"
@@ -13,13 +14,18 @@ import SocialSharingSection from "./components/SocialSharingSection"
 import TrustSection from "./components/TrustSection"
 
 const LandingPage = () => {
+  const [heroImage, setHeroImage] = useState(null)
+  const resetHeroMessage = () => {
+    setHeroImage(null);
+  }
+
   return (
     <div className="min-h-screen">
       <NavBar />
-      <Hero />
+      <Hero heroImage={heroImage} resetHeroMessage={resetHeroMessage}/>
       <ProblemSection />
       <HowItWorks />
-      <MatchReveal />
+      <MatchReveal setHeroImage={setHeroImage} />
       <TrustSection />
       <PersonalizationSection />
       <AIStylistDemo />
