@@ -1,5 +1,6 @@
-const MatchReveal = () => {
+const MatchReveal = ({setHeroImage}) => {
   const HOLY_SHIT = {
+    imageURL: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=80",
     originalPrice: 300000,
     veraPrice: 96000,
     similarity: 93,
@@ -9,6 +10,14 @@ const MatchReveal = () => {
       { label: "Budget", price: 61000, match: 86 },
       { label: "Premium", price: 180000, match: 95 },
     ],
+  };
+
+  const handleRecreateLook = () => {
+    setHeroImage(HOLY_SHIT.imageURL);
+    document.getElementById("heroId")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
   return (
     <section className="py-24 px-5 bg-vera-warm">
@@ -20,9 +29,9 @@ const MatchReveal = () => {
           ₦300,000 outfit → ₦96,000
         </h2>
         <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
-          <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-white">
+          <div className="aspect-3/4 rounded-2xl overflow-hidden bg-white">
             <img
-              src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=80"
+              src={HOLY_SHIT.imageURL}
               alt="Original"
               className="w-full h-full object-cover"
             />
@@ -33,7 +42,7 @@ const MatchReveal = () => {
               <p className="font-display text-3xl">₦300,000</p>
             </div>
             <div>
-              <p className="text-sm text-vera-gray">VERA recreation</p>
+              <p className="text-sm text-vera-gray">VERA found</p>
               <p className="font-display text-3xl">₦96,000</p>
               <p className="text-sm text-vera-gray mt-1">
                 93% visual similarity
@@ -55,7 +64,10 @@ const MatchReveal = () => {
                 </div>
               ))}
             </div>
-            <button className="bg-vera-black text-white px-8 py-3.5 rounded-full text-sm">
+            <button
+              onClick={handleRecreateLook}
+              className="bg-vera-black text-white px-8 py-3.5 rounded-full text-sm"
+            >
               Recreate this look
             </button>
           </div>
