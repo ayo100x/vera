@@ -30,14 +30,14 @@ const AIStylistDemo = () => {
         "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&q=80",
     },
   ];
-  
+
   return (
     <section className="py-24 px-5 max-w-6xl mx-auto">
       <h2 className="font-display text-4xl md:text-5xl text-center mb-4">
         Talk to VERA like a personal shopper
       </h2>
       <p className="text-center text-vera-gray mb-16">
-        Not a chatbot. A commerce-native intelligence.
+        Tell VERA what you need. It finds what actually fits.
       </p>
 
       <div className="max-w-2xl mx-auto mb-12 bg-white border border-vera-border rounded-2xl p-6 space-y-4">
@@ -49,7 +49,8 @@ const AIStylistDemo = () => {
         </div>
         <div className="flex justify-start">
           <div className="bg-vera-warm text-sm rounded-2xl rounded-bl-sm px-4 py-3 max-w-xs">
-            Got it. Three looks I’d recommend for you.
+            Got it. I’d narrow it down to three looks that fit your style and
+            budget.
           </div>
         </div>
       </div>
@@ -84,7 +85,7 @@ const AIStylistDemo = () => {
       </div>
       <div className="text-center mt-10">
         <button className="border border-vera-black px-8 py-3 rounded-full text-sm hover:bg-vera-black hover:text-white transition">
-          See all looks
+          Explore more looks
         </button>
       </div>
     </section>
