@@ -16,7 +16,7 @@ const TrustSection = () => {
         <div className="flex gap-5">
           <div className="w-24 h-32 rounded-lg bg-vera-warm overflow-hidden flex-shrink-0">
             <img
-              src="https://images.unsplash.com/photo-1591047139829-d91aecb6ca87?w=200&q=80"
+              src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?q=80&w=300&auto=format&fit=crop"
               className="w-full h-full object-cover"
             />
           </div>
@@ -27,8 +27,8 @@ const TrustSection = () => {
               <X size={16} /> Skip this one
             </div>
             <p className="text-xs text-vera-gray mt-2 leading-relaxed">
-              We found a similar piece for ₦74,000 from a more trusted seller
-              with better reviews and reliable delivery.
+              A similar piece is available for ₦74,000 from a more trusted
+              seller with stronger reviews.
             </p>
           </div>
         </div>
