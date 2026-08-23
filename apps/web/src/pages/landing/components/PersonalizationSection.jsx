@@ -15,8 +15,8 @@ const PersonalizationSection = () => {
           the more you use it
         </h2>
         <p className="text-white/60 mb-12 max-w-lg mx-auto">
-          It learns your taste, budget, and preferences so the next time you
-          show it something, it already knows what you actually want.
+          The more you use VERA, the better it understands what you like, what
+          you spend, and what is actually worth recommending to you.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           {traits.map((t) => (
