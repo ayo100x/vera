@@ -14,7 +14,7 @@ const MatchReveal = ({setHeroImage}) => {
 
   const handleRecreateLook = () => {
     setHeroImage(HOLY_SHIT.imageURL);
-    document.getElementById("heroId")?.scrollIntoView({
+    document.getElementById("heroInteraction")?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
