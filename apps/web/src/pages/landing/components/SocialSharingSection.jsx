@@ -13,7 +13,13 @@ const SocialSharingSection = () => {
         <p className="text-xs text-vera-gray uppercase tracking-widest mb-4">
           Found on VERA
         </p>
-        <div className="aspect-3/4 rounded-xl bg-vera-warm mb-4" />
+        <div className="aspect-[3/4] rounded-xl overflow-hidden bg-vera-warm mb-4">
+          <img
+            src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=85"
+            alt="Look found and recreated by VERA"
+            className="w-full h-full object-cover"
+          />
+        </div>
         <div className="flex justify-between text-sm">
           <div>
             <p className="text-vera-gray">Original</p>
