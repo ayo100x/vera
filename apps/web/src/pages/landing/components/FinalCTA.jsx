@@ -1,4 +1,4 @@
-const FinalCTA = () => {
+const FinalCTA = ({ scrollToHero }) => {
   return (
     <section className="py-32 px-5 bg-vera-black text-white text-center">
       <h2 className="font-display text-5xl md:text-6xl leading-tight mb-6">
@@ -11,7 +11,10 @@ const FinalCTA = () => {
         buying.
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <button className="bg-white text-vera-black px-10 py-4 rounded-full text-sm font-medium hover:bg-vera-offwhite transition">
+        <button
+          onClick={scrollToHero}
+          className="bg-white text-vera-black px-10 py-4 rounded-full text-sm font-medium hover:bg-vera-offwhite transition"
+        >
           Try VERA
         </button>
         <button className="border border-white/30 px-10 py-4 rounded-full text-sm hover:bg-white/10 transition">
