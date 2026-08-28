@@ -180,6 +180,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
     setAnalysisStep(0);
     setStage("analyzing");
 
+    // 
     document.getElementById("heroId")?.scrollIntoView({
       behavior: "smooth",
     });
@@ -190,7 +191,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-5 pb-20 pt-28 ">
+    <section className="mx-auto max-w-7xl px-5 pb-20 pt-28 " id="heroId">
       {/* Hero heading */}
       <div className="mx-auto mb-14 max-w-3xl text-center">
         <motion.h1
@@ -215,7 +216,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
       </div>
 
       {/* Interactive Demo */}
-      <div className="relative mx-auto max-w-5xl scroll-mt-50" id="heroId">
+      <div className="relative mx-auto max-w-5xl scroll-mt-50" id="heroInteraction" > 
         <AnimatePresence mode="wait">
           {/* IDLE */}
           {stage === "idle" && (
