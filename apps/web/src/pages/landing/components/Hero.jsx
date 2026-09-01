@@ -1,125 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, Search, Sparkles, X, Camera } from "lucide-react";
-
-const DEMO_OUTFIT = {
-  source:
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
-
-  items: [
-    {
-      id: 1,
-      name: "Black oversized shirt",
-      price: 28000,
-      match: 94,
-      image:
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
-    },
-    {
-      id: 2,
-      name: "Cream relaxed trousers",
-      price: 31000,
-      match: 91,
-      image:
-        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
-    },
-    {
-      id: 3,
-      name: "Brown loafers",
-      price: 35000,
-      match: 96,
-      image:
-        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
-    },
-    {
-      id: 4,
-      name: "Gold minimal watch",
-      price: 42000,
-      match: 89,
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
-    },
-  ],
-};
-
-const CHEAPER_ITEMS = [
-  {
-    id: "c1",
-    name: "Black relaxed shirt",
-    price: 18500,
-    match: 88,
-    image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
-  },
-  {
-    id: "c2",
-    name: "Off-white wide trousers",
-    price: 22000,
-    match: 85,
-    image:
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
-  },
-  {
-    id: "c3",
-    name: "Tan slip-ons",
-    price: 24000,
-    match: 87,
-    image:
-      "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
-  },
-  {
-    id: "c4",
-    name: "Slim gold watch",
-    price: 24500,
-    match: 82,
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
-  },
-];
-
-const PREMIUM_ITEMS = [
-  {
-    id: "p1",
-    name: "Black Italian cotton shirt",
-    price: 52000,
-    match: 93,
-    image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
-  },
-  {
-    id: "p2",
-    name: "Cream tailored trousers",
-    price: 58000,
-    match: 91,
-    image:
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
-  },
-  {
-    id: "p3",
-    name: "Brown leather loafers",
-    price: 65000,
-    match: 95,
-    image:
-      "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
-  },
-  {
-    id: "p4",
-    name: "Gold dress watch",
-    price: 78000,
-    match: 90,
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
-  },
-];
+import { Link } from "react-router-dom";
+import {
+  DEMO_OUTFIT,
+  CHEAPER_ITEMS,
+  PREMIUM_ITEMS,
+  steps,
+} from "../data/landingData";
 
 const Hero = ({ heroImage, resetHeroMessage }) => {
-  const steps = [
-    "VERA is looking at your image…",
-    "Identifying the pieces…",
-    "Finding the closest matches…",
-    "Comparing your options…",
-  ];
-
   const [stage, setStage] = useState("idle");
   const [selected, setSelected] = useState(null);
   const [image, setImage] = useState(null);
@@ -137,7 +27,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
     setTimeout(() => {
       // set a 3 second second timeout before setting stage to results
       setStage("results");
-    }, 4000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -180,7 +70,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
     setAnalysisStep(0);
     setStage("analyzing");
 
-    // 
+    //
     document.getElementById("heroId")?.scrollIntoView({
       behavior: "smooth",
     });
@@ -194,7 +84,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
     <section className="mx-auto max-w-7xl px-5 pb-20 pt-28 " id="heroId">
       {/* Hero heading */}
       <div className="mx-auto mb-14 max-w-3xl text-center">
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
@@ -202,9 +92,9 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
           Found something
           <br />
           you want?
-        </motion.h1>
+        </motion.div>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -212,11 +102,14 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
         >
           Show VERA. It finds the exact product, better alternatives, and tells
           you what’s actually worth buying.
-        </motion.p>
+        </motion.div>
       </div>
 
       {/* Interactive Demo */}
-      <div className="relative mx-auto max-w-5xl scroll-mt-50" id="heroInteraction" > 
+      <div
+        className="relative mx-auto max-w-5xl scroll-mt-50"
+        id="heroInteraction"
+      >
         <AnimatePresence mode="wait">
           {/* IDLE */}
           {stage === "idle" && (
@@ -234,24 +127,18 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                   alt={image ? "User uploaded image" : "VERA demo"}
                   className="h-full w-full object-cover"
                 />
-
+                {/* shadow overlay on image*/}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
                 <div className="absolute bottom-6 left-6 right-6 text-white">
                   <p className="text-sm opacity-80">
-                    {image
-                      ? "Your image"
-                      : heroImage
-                        ? "Selected from VERA"
-                        : "Seen on Instagram"}
+                    {image ? "Your image" : "Selected from VERA"}
                   </p>
 
                   <p className="mt-1 font-medium">
                     {image
                       ? "Ready for VERA to find it."
-                      : heroImage
-                        ? "Ready to recreate this look."
-                        : "Oversized yellow hoodie + yellow pant"}
+                      : "Ready to recreate this look."}
                   </p>
                 </div>
               </div>
@@ -302,7 +189,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
               transition={{ duration: 0.35 }}
               className="flex flex-col items-center justify-center py-20 md:py-28"
             >
-              <div className="relative w-full max-w-[11.5rem] sm:max-w-[13rem]">
+              <div className="relative w-full max-w-46 sm:max-w-52">
                 <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
                   <img
                     src={image || heroImage || DEMO_OUTFIT.source}
@@ -605,36 +492,41 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                           : DEMO_OUTFIT.items
                       ).map((item, i) => (
                         // product - card
-                        <motion.div
+                        <Link
                           key={item.id}
-                          initial={{ opacity: 0, y: 14 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: 0.04 + i * 0.05,
-                            duration: 0.32,
-                          }}
-                          className="group"
+                          to={`/product/${item.id}`}
+                          className="block"
                         >
-                          <div className="mb-3 aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
-                            <img
-                              src={item.image}
-                              alt={item.name}
-                              className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
-                            />
-                          </div>
+                          <motion.div
+                            initial={{ opacity: 0, y: 14 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              delay: 0.04 + i * 0.05,
+                              duration: 0.32,
+                            }}
+                            className="group"
+                          >
+                            <div className="mb-3 aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+                              />
+                            </div>
 
-                          <p className="text-[13px] font-medium leading-snug">
-                            {item.name}
-                          </p>
-                          <div className="mt-1 flex items-baseline justify-between gap-2">
-                            <span className="text-[13px] tabular-nums">
-                              ₦{item.price.toLocaleString()}
-                            </span>
-                            <span className="text-[11px] tabular-nums text-vera-gray">
-                              {item.match}%
-                            </span>
-                          </div>
-                        </motion.div>
+                            <p className="text-[13px] font-medium leading-snug">
+                              {item.name}
+                            </p>
+                            <div className="mt-1 flex items-baseline justify-between gap-2">
+                              <span className="text-[13px] tabular-nums">
+                                ₦{item.price.toLocaleString()}
+                              </span>
+                              <span className="text-[11px] tabular-nums text-vera-gray">
+                                {item.match}%
+                              </span>
+                            </div>
+                          </motion.div>
+                        </Link>
                       ))}
                     </div>
                   )}
