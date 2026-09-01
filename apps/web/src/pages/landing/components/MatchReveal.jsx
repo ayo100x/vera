@@ -1,17 +1,6 @@
-const MatchReveal = ({setHeroImage}) => {
-  const HOLY_SHIT = {
-    imageURL: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=80",
-    originalPrice: 300000,
-    veraPrice: 96000,
-    similarity: 93,
-    options: [
-      { label: "Exact", price: 250000, match: 97 },
-      { label: "Similar", price: 96000, match: 93 },
-      { label: "Budget", price: 61000, match: 86 },
-      { label: "Premium", price: 180000, match: 95 },
-    ],
-  };
+import { HOLY_SHIT } from "../data/landingData";
 
+const MatchReveal = ({ setHeroImage }) => {
   const handleRecreateLook = () => {
     setHeroImage(HOLY_SHIT.imageURL);
     document.getElementById("heroInteraction")?.scrollIntoView({
