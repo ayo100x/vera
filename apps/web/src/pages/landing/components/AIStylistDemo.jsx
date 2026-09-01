@@ -1,36 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { AI_LOOKS } from "../data/landingData";
 
 const AIStylistDemo = () => {
-  const AI_LOOKS = [
-    {
-      id: 1,
-      title: "Quiet Confidence",
-      price: 142000,
-      match: 96,
-      reason: "Slim silhouette, muted tones, understated elegance",
-      image:
-        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500&q=80",
-    },
-    {
-      id: 2,
-      title: "Modern Classic",
-      price: 128000,
-      match: 94,
-      reason: "Clean lines, breathable fabrics, perfect for evening",
-      image:
-        "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&q=80",
-    },
-    {
-      id: 3,
-      title: "Refined Minimal",
-      price: 98000,
-      match: 91,
-      reason: "Lightweight, versatile, stays under budget",
-      image:
-        "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&q=80",
-    },
-  ];
-
   return (
     <section className="py-24 px-5 max-w-6xl mx-auto">
       <h2 className="font-display text-4xl md:text-5xl text-center mb-4">
