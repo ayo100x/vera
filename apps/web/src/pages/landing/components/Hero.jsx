@@ -87,7 +87,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
+          className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-6xl"
         >
           Found something
           <br />
@@ -189,7 +189,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
               transition={{ duration: 0.35 }}
               className="flex flex-col items-center justify-center py-20 md:py-28"
             >
-              <div className="relative w-full max-w-46 sm:max-w-52">
+              <div className="relative w-full max-w-46 sm:max-w-[13rem]">
                 <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
                   <img
                     src={image || heroImage || DEMO_OUTFIT.source}
