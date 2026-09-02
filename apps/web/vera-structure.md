@@ -38,7 +38,8 @@ vera/
         │   │   └── layout/
         │   │
         │   ├── features/
-        │   │
+        │   │   ├── outfit-builder/
+        |   |
         │   ├── hooks/
         │   │
         │   ├── services/
