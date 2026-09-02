@@ -2,20 +2,20 @@ import { useState } from "react";
 import { Menu, Search, ShoppingBag, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const NavBar = ({ scrollToHero }) => {
+const NavBar = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-vera-border bg-vera-offwhite/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
+      <div className="mx-auto flex h-13 max-w-7xl items-center justify-between px-5">
         <Link
           to="/"
-          className="font-display text-2xl tracking-tight text-vera-black"
+          className="font-display text-xl tracking-tight text-vera-black"
         >
           VERA
         </Link>
 
-        <nav className="hidden items-center gap-9 text-sm text-vera-gray md:flex">
+        <nav className="hidden items-center gap-8 text-sm text-vera-gray md:flex">
           <Link to="/" className="transition hover:text-vera-black">
             Discover
           </Link>
