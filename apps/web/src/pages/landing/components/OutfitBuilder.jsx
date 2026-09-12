@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const OutfitBuilder = () => {
   const outfit = [
@@ -88,9 +89,11 @@ const OutfitBuilder = () => {
           <p className="font-display text-3xl mt-1">
             ₦{total.toLocaleString()}
           </p>
-          <button className="mt-6 bg-vera-black text-white px-8 py-3.5 rounded-full text-sm">
-            Get the look
-          </button>
+          <Link to={`/look/${outfit.id}`}>
+            <button className="mt-6 bg-vera-black text-white px-8 py-3.5 rounded-full text-sm">
+              Get the look
+            </button>
+          </Link>
         </div>
       </div>
     </section>
