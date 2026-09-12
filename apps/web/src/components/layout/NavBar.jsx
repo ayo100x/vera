@@ -19,12 +19,12 @@ const NavBar = () => {
           <Link to="/" className="transition hover:text-vera-black">
             Discover
           </Link>
-          <Link to="/marketplace" className="transition hover:text-vera-black">
-            Marketplace
-          </Link>
           <a href="/#how" className="transition hover:text-vera-black">
             How it works
           </a>
+          <Link to="/marketplace" className="transition hover:text-vera-black">
+            Marketplace
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3 sm:gap-4">
