@@ -15,17 +15,20 @@ import SimilarProduct from "./components/SimilarProduct.jsx";
 import ProductOutfitBuilder from "./components/ProductOutfitBuilder.jsx";
 import Footer from "../../components/layout/Footer.jsx";
 import MobilePurchaseBar from "./components/MobilePurchaseBar.jsx";
+import AffiliatePurchaseColumn from "./components/AffiliatePurchaseColumn.jsx";
 
 const ProductPage = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
 
-  const source = searchParams.get("source"); // "results" | "marketplace" | null
+  const source = searchParams.get("source");
   const fromResults = source === "results";
 
   const product = PRODUCTS[id] || PRODUCTS[1];
   const match = product.vera?.match;
   const market = product.vera?.marketplace;
+
+  const isMarketplace = product.source.type === "marketplace";
 
   return (
     <div className="min-h-screen bg-vera-offwhite text-vera-black">
@@ -39,15 +42,26 @@ const ProductPage = () => {
         {/* Hero */}
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <ProductGallery product={product} />
-          <PurchaseColumn
-            product={product}
-            fromResults={fromResults}
-            match={match}
-            market={market}
-          />
+          {isMarketplace ? (
+            <PurchaseColumn
+              product={product}
+              fromResults={fromResults}
+              match={match}
+              market={market}
+            />
+          ) : (
+            // affiliate
+            <AffiliatePurchaseColumn
+              product={product}
+              fromResults={fromResults}
+              match={match}
+              market={market}
+            />
+          )}
         </div>
 
-        <SellerStrip product={product} />
+        {isMarketplace && <SellerStrip product={product} />}
+
         <ProductDetails DETAIL_ROWS={DETAIL_ROWS} product={product} />
         <SimilarProduct SIMILAR={SIMILAR} fromResults={fromResults} />
         <ProductOutfitBuilder COMPLETE_LOOK={COMPLETE_LOOK} />

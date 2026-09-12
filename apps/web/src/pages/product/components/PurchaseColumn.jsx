@@ -6,7 +6,7 @@ const PurchaseColumn = ({ product, fromResults, match, market }) => {
   const [quantity, setQuantity] = useState(1);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState(product.variants.sizes[1]);
-  
+
   return (
     <div className="lg:col-span-5">
       <div className="lg:sticky lg:top-24">
@@ -16,8 +16,8 @@ const PurchaseColumn = ({ product, fromResults, match, market }) => {
 
         {/* Seller / rating line */}
         <div className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-vera-gray">
-          <span className="text-vera-black">{product.seller.name}</span>
-          {product.seller.verified && (
+          <span className="text-vera-black">{product.seller?.name}</span>
+          {product.seller?.verified && (
             <span className="inline-flex items-center gap-1">
               <Check size={12} strokeWidth={2.25} />
               Verified
@@ -80,7 +80,7 @@ const PurchaseColumn = ({ product, fromResults, match, market }) => {
           ) : (
             <div>
               <p className="text-[11px] tracking-[0.07em] uppercase text-vera-gray">
-                VERA&apos;s take
+                VERA's take
               </p>
               <p className="mt-2.5 text-[13.5px] leading-relaxed text-vera-black">
                 {market?.verdict}
@@ -103,7 +103,7 @@ const PurchaseColumn = ({ product, fromResults, match, market }) => {
             </div>
           )}
         </div>
-        
+
         {/* Colour */}
         <div className="mt-8">
           <p className="text-[13px] font-medium">

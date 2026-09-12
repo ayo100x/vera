@@ -8,8 +8,8 @@ const SellerStrip = ({product}) => {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-[15px] font-medium">{product.seller.name}</h2>
-            {product.seller.verified && (
+            <h2 className="text-[15px] font-medium">{product.seller?.name}</h2>
+            {product.seller?.verified && (
               <span className="inline-flex items-center gap-1 text-[12px] text-vera-gray">
                 <Check size={12} strokeWidth={2.25} />
                 Verified
@@ -23,22 +23,22 @@ const SellerStrip = ({product}) => {
               strokeWidth={0}
             />
             <span className="tabular-nums text-vera-black">
-              {product.seller.rating}
+              {product.seller?.rating}
             </span>
             <span>
               ·{" "}
-              {product.seller.reviews >= 1000
-                ? `${(product.seller.reviews / 1000).toFixed(1)}k`
-                : product.seller.reviews}{" "}
+              {product.seller?.reviews >= 1000
+                ? `${(product.seller?.reviews / 1000).toFixed(1)}k`
+                : product.seller?.reviews}{" "}
               reviews
             </span>
           </p>
           <p className="mt-1 text-[12.5px] text-vera-gray">
-            {product.seller.shipping} · {product.seller.protection}
+            {product.seller?.shipping} · {product.seller?.protection}
           </p>
         </div>
         <Link
-          to={`/seller/${product.seller.id}`}
+          to={`/seller/${product.seller?.id}`}
           className="inline-flex items-center gap-1.5 text-[13px] text-vera-black transition hover:opacity-70"
         >
           View seller

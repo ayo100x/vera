@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 const ProductDetails = ({ DETAIL_ROWS, product }) => {
-  const [openDetail, setOpenDetail] = useState(DETAIL_ROWS[0]?.key);
+  const [openDetail, setOpenDetail] = useState(DETAIL_ROWS[0].key);
 
   return (
     <section className="mx-auto mt-14 max-w-2xl md:mt-16">

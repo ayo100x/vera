@@ -24,7 +24,6 @@ const SimilarProduct = ({ SIMILAR, fromResults }) => {
             transition={{ delay: i * 0.04, duration: 0.35 }}
           >
             <Link
-              key={item.id}
               to={`/product/${item.id}`}
               className="group block"
             >
@@ -54,6 +53,6 @@ const SimilarProduct = ({ SIMILAR, fromResults }) => {
       </div>
     </section>
   );
-};
+}
 
 export default SimilarProduct;

@@ -20,7 +20,7 @@ const ProductGallery = ({ product }) => {
         </AnimatePresence>
       </div>
 
-      <div className="mt-3 flex gap-2 overflow-x-auto pb-0.5">
+      {/* <div className="mt-3 flex gap-2 overflow-x-auto pb-0.5">
         {product.images.map((src, i) => (
           <button
             key={src}
@@ -36,7 +36,7 @@ const ProductGallery = ({ product }) => {
             <img src={src} alt="" className="h-full w-full object-cover" />
           </button>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

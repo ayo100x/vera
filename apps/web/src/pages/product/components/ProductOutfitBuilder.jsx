@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 const ProductOutfitBuilder = ({ COMPLETE_LOOK }) => {
   const lookTotal = useMemo(
@@ -55,12 +56,11 @@ const ProductOutfitBuilder = ({ COMPLETE_LOOK }) => {
         <p className="mt-1 font-display text-[1.7rem] tracking-tight tabular-nums">
           ₦{lookTotal.toLocaleString()}
         </p>
-        <button
-          type="button"
-          className="mt-5 rounded-full bg-vera-black px-8 py-3 text-[13px] text-white transition hover:bg-black"
-        >
-          Get the look
-        </button>
+        <Link to={`/look/${COMPLETE_LOOK.id}`}>
+          <button className="mt-5 rounded-full bg-vera-black px-8 py-3 text-[13px] text-white transition hover:bg-black">
+             Get the look
+          </button>
+        </Link>
       </div>
     </section>
   );
