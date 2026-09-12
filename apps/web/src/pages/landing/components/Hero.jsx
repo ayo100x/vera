@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, Search, Sparkles, X, Camera } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Upload, Search, Camera, X } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   DEMO_OUTFIT,
   CHEAPER_ITEMS,
@@ -10,8 +10,11 @@ import {
 } from "../data/landingData";
 
 const Hero = ({ heroImage, resetHeroMessage }) => {
-  const [stage, setStage] = useState("idle");
-  const [selected, setSelected] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [stage, setStage] = useState(
+    searchParams.get("hero") === "results" ? "results" : "idle",
+  );
+  const [selected, setSelected] = useState(searchParams.get("mode") || null);
   const [image, setImage] = useState(null);
   const [analysisStep, setAnalysisStep] = useState(0);
   const [query, setQuery] = useState("");
@@ -79,6 +82,29 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
       setStage("results");
     }, 4000);
   };
+
+  useEffect(() => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+
+        if (stage === "results") {
+          next.set("hero", "results");
+        } else {
+          next.delete("hero");
+        }
+
+        if (selected) {
+          next.set("mode", selected);
+        } else {
+          next.delete("mode");
+        }
+
+        return next;
+      },
+      { replace: true },
+    );
+  }, [stage, selected, setSearchParams]);
 
   return (
     <section className="mx-auto max-w-7xl px-5 pb-20 pt-28 " id="heroId">
