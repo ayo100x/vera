@@ -19,11 +19,11 @@ const HowItWorks = () => {
     },
   ];
   return (
-    <section id="how" className="py-24 px-5 max-w-6xl mx-auto">
-      <h2 className="font-display text-4xl md:text-5xl text-center mb-16">
+    <section id="how" className="py-16 px-5 max-w-4xl mx-auto">
+      <h2 className="font-display text-3xl md:text-4xl text-center mb-12">
         How VERA works
       </h2>
-      <div className="grid md:grid-cols-3 gap-10">
+      <div className="grid md:grid-cols-3 gap-6">
         {steps.map((s, i) => (
           <motion.div
             key={s.num}
