@@ -15,7 +15,7 @@ import Footer from "../../components/layout/Footer";
 
 const LandingPage = () => {
   const [heroImage, setHeroImage] = useState(null);
-  const resetHeroMessage = () => {
+  const resetHeroImage = () => {
     setHeroImage(null);
   };
 
@@ -27,21 +27,21 @@ const LandingPage = () => {
   };
 
   return (
-      <div className="min-h-screen">
-        <NavBar scrollToHero={scrollToHero} />
-        <Hero heroImage={heroImage} resetHeroMessage={resetHeroMessage} />
-        <ProblemSection />
-        <HowItWorks />
-        <MatchReveal setHeroImage={setHeroImage} />
-        <TrustSection />
-        <PersonalizationSection />
-        <AIStylistDemo />
-        <OutfitBuilder />
-        <SocialSharingSection />
-        <SellerTrustSection />
-        <FinalCTA scrollToHero={scrollToHero} />
-        <Footer />
-      </div>
+    <div className="min-h-screen">
+      <NavBar scrollToHero={scrollToHero} />
+      <Hero heroImage={heroImage} resetHeroImage={resetHeroImage} />
+      <ProblemSection />
+      <HowItWorks />
+      <MatchReveal setHeroImage={setHeroImage} />
+      <TrustSection />
+      <PersonalizationSection />
+      <AIStylistDemo />
+      <OutfitBuilder />
+      <SocialSharingSection />
+      <SellerTrustSection />
+      <FinalCTA scrollToHero={scrollToHero} />
+      <Footer />
+    </div>
   );
 };
 
