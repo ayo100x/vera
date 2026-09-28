@@ -159,3 +159,9 @@ export const AI_LOOKS = [
       "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&q=80",
   },
 ];
+
+export const OPTIONS = [
+  { key: "cheaper", label: "Find it for less" },
+  { key: "premium", label: "Better versions" },
+  { key: "complete", label: "Get the full look" },
+];
