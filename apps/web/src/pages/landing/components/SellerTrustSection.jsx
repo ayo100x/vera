@@ -2,15 +2,15 @@ import { ArrowRight, Check } from "lucide-react";
 
 const SellerTrustSection = () => {
   return (
-    <section id="sellers" className="py-24 px-5 max-w-5xl mx-auto text-center">
-      <h2 className="font-display text-4xl md:text-5xl mb-6">
+    <section id="sellers" className="py-16 px-5 max-w-3xl mx-auto text-center">
+      <h2 className="font-display text-3xl md:text-4xl mb-5">
         Buy with confidence
       </h2>
-      <p className="text-vera-gray max-w-lg mx-auto mb-12">
+      <p className="text-vera-gray max-w-md mx-auto mb-8">
         Every seller on VERA is verified, so you can shop with accurate product
         information, real reviews, and confidence in every purchase.
       </p>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 text-sm">
         {[
           "Verified sellers",
           "Real reviews",
@@ -26,7 +26,7 @@ const SellerTrustSection = () => {
         ))}
       </div>
 
-      <div className="mt-16 flex justify-center">
+      <div className="mt-10 flex justify-center">
         <a
           href="#seller-onboarding"
           className="group relative inline-flex items-center gap-2 pb-2 text-[13px]"
