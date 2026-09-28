@@ -3,11 +3,11 @@ import { AI_LOOKS } from "../data/landingData";
 
 const AIStylistDemo = () => {
   return (
-    <section className="py-24 px-5 max-w-6xl mx-auto">
-      <h2 className="font-display text-4xl md:text-5xl text-center mb-4">
+    <section className="py-16 px-5 max-w-4xl mx-auto">
+      <h2 className="font-display text-3xl md:text-4xl text-center mb-4">
         Talk to VERA like a personal shopper
       </h2>
-      <p className="text-center text-vera-gray mb-16">
+      <p className="text-center text-vera-gray mb-10">
         Tell VERA what you need. It finds what actually fits.
       </p>
 
@@ -26,7 +26,7 @@ const AIStylistDemo = () => {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-5">
         {AI_LOOKS.map((look, i) => (
           <motion.div
             key={look.id}
@@ -54,8 +54,8 @@ const AIStylistDemo = () => {
           </motion.div>
         ))}
       </div>
-      <div className="text-center mt-10">
-        <button className="border border-vera-black px-8 py-3 rounded-full text-sm hover:bg-vera-black hover:text-white transition">
+      <div className="text-center mt-8">
+        <button className="border border-vera-black px-7 py-2.5 rounded-full text-sm hover:bg-vera-black hover:text-white transition">
           Explore more looks
         </button>
       </div>
