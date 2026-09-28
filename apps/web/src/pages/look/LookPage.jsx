@@ -128,7 +128,7 @@ const LookPage = () => {
     <div className="min-h-screen bg-vera-offwhite text-vera-black">
       <NavBar />
 
-      <main className="mx-auto max-w-5xl px-5 pb-36 pt-24 md:pb-28 md:pt-28">
+      <main className="mx-auto max-w-3xl px-5 pb-24 pt-18 md:pb-20 md:pt-20">
         {/* Quiet introduction */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -136,7 +136,7 @@ const LookPage = () => {
           transition={{ duration: 0.35 }}
           className="max-w-xl"
         >
-          <h1 className="font-display text-[2rem] leading-[1.1] tracking-tight md:text-[2.5rem]">
+          <h1 className="font-display text-[1.8rem] leading-[1.1] tracking-tight md:text-[2.15rem]">
             Your VERA Look
           </h1>
           <p className="mt-3 max-w-md text-[14px] leading-relaxed text-vera-gray">
@@ -146,7 +146,7 @@ const LookPage = () => {
         </motion.div>
 
         {/* THE LOOK — single editorial composition */}
-        <div className="mt-12 md:mt-16">
+        <div className="mt-8 md:mt-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={active.item.id}
@@ -154,7 +154,7 @@ const LookPage = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.28 }}
-              className="grid gap-8 md:grid-cols-12 md:gap-14"
+              className="grid gap-5 md:grid-cols-12 md:gap-8"
             >
               {/* Active product image */}
               <div className="md:col-span-6">
@@ -189,7 +189,7 @@ const LookPage = () => {
                   ₦{active.item.price.toLocaleString()}
                 </p>
 
-                <div className="mt-8 space-y-6">
+                <div className="mt-6 space-y-5">
                   {Object.entries(active.item.options || {}).map(
                     ([key, option]) => (
                       <div key={key}>
@@ -271,7 +271,7 @@ const LookPage = () => {
                 </div>
 
                 {/* Status + quiet forward nudge */}
-                <div className="mt-10 flex items-center justify-between gap-4 border-t border-vera-border pt-6">
+                <div className="mt-8 flex items-center justify-between gap-4 border-t border-vera-border pt-5">
                   <p className="text-[13px] text-vera-gray">
                     {active.complete
                       ? "Ready"
@@ -296,7 +296,7 @@ const LookPage = () => {
         </div>
 
         {/* Quiet piece navigation — the only other place the pieces appear */}
-        <div className="mx-auto mt-10 flex max-w-md justify-center gap-3 md:mt-14">
+        <div className="mx-auto mt-8 flex max-w-md justify-center gap-3 md:mt-10">
           {states.map(({ item, complete }) => {
             const isActive = item.id === activeId;
             return (
@@ -309,7 +309,7 @@ const LookPage = () => {
                 className="group flex flex-col items-center gap-2"
               >
                 <div
-                  className={`h-14 w-11 overflow-hidden rounded-md bg-vera-warm transition ${
+                  className={`h-12 w-9 overflow-hidden rounded-md bg-vera-warm transition ${
                     isActive
                       ? "ring-1 ring-vera-black"
                       : "opacity-60 group-hover:opacity-100"
@@ -332,13 +332,13 @@ const LookPage = () => {
         </div>
 
         {/* Closing action */}
-        <div className="mx-auto mt-14 max-w-md text-center md:mt-16">
+        <div className="mx-auto mt-10 max-w-md text-center md:mt-12">
           <p className="text-[13px] text-vera-gray">
             {allComplete
               ? `${totalCount} pieces`
               : `${completeCount} of ${totalCount} ready`}
           </p>
-          <p className="mt-1 font-display text-[2rem] tracking-tight tabular-nums md:text-[2.25rem]">
+          <p className="mt-1 font-display text-[1.8rem] tracking-tight tabular-nums md:text-[2rem]">
             ₦{total.toLocaleString()}
           </p>
 
@@ -363,7 +363,7 @@ const LookPage = () => {
           <button
             type="button"
             onClick={handleAddLook}
-            className="mt-6 hidden w-full rounded-full bg-vera-black py-3.5 text-[14px] text-white transition hover:bg-black md:inline-flex md:w-auto md:px-10 md:items-center md:justify-center"
+            className="mt-5 hidden w-full rounded-full bg-vera-black py-3 text-[14px] text-white transition hover:bg-black md:inline-flex md:w-auto md:px-8 md:items-center md:justify-center"
           >
             {allComplete
               ? "Add look to bag"
