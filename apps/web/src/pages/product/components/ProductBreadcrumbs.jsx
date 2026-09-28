@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const ProductBreadcrumbs = ({product}) => {
   return (
-    <nav aria-label="Breadcrumb" className="mb-8 text-[12.5px] text-vera-gray">
+    <nav aria-label="Breadcrumb" className="mb-6 text-[12.5px] text-vera-gray">
       
         <div>
           <Link to="/" className="transition hover:text-vera-black">
