@@ -10,11 +10,11 @@ const SimilarProduct = ({ SIMILAR, fromResults }) => {
   }, [id]);
 
   return (
-    <section className="mt-16 md:mt-20">
+    <section className="mt-12 md:mt-16">
       <h2 className="font-display text-2xl tracking-tight md:text-3xl">
         More like this
       </h2>
-      <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 md:gap-x-5">
+      <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-4 md:gap-x-4">
         {SIMILAR.map((item, i) => (
           <motion.div
             key={item.id}
