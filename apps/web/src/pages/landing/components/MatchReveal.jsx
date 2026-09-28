@@ -9,15 +9,15 @@ const MatchReveal = ({ setHeroImage }) => {
     });
   };
   return (
-    <section className="py-24 px-5 bg-vera-warm">
-      <div className="max-w-5xl mx-auto text-center">
+    <section className="py-16 px-5 bg-vera-warm">
+      <div className="max-w-3xl mx-auto text-center">
         <p className="text-sm text-vera-gray uppercase tracking-widest mb-4">
           The moment
         </p>
-        <h2 className="font-display text-4xl md:text-5xl mb-12">
+        <h2 className="font-display text-3xl md:text-4xl mb-10">
           ₦300,000 outfit → ₦96,000
         </h2>
-        <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
+        <div className="grid md:grid-cols-2 gap-5 items-center mb-8">
           <div className="aspect-3/4 rounded-2xl overflow-hidden bg-white">
             <img
               src={HOLY_SHIT.imageURL}
@@ -25,7 +25,7 @@ const MatchReveal = ({ setHeroImage }) => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="text-left space-y-6">
+          <div className="text-left space-y-5">
             <div>
               <p className="text-sm text-vera-gray">Original look</p>
               <p className="font-display text-3xl">₦300,000</p>
@@ -41,7 +41,7 @@ const MatchReveal = ({ setHeroImage }) => {
               {HOLY_SHIT.options.map((o) => (
                 <div
                   key={o.label}
-                  className="bg-white rounded-xl p-4 border border-vera-border"
+                  className="bg-white rounded-xl p-3.5 border border-vera-border"
                 >
                   <p className="text-xs text-vera-gray">{o.label}</p>
                   <p className="font-medium mt-1">
@@ -55,7 +55,7 @@ const MatchReveal = ({ setHeroImage }) => {
             </div>
             <button
               onClick={handleRecreateLook}
-              className="bg-vera-black text-white px-8 py-3.5 rounded-full text-sm"
+              className="bg-vera-black text-white px-7 py-3 rounded-full text-sm"
             >
               Recreate this look
             </button>
