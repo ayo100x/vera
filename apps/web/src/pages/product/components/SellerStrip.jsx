@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const SellerStrip = ({product}) => {
 
   return (
-    <div className="mt-16 border-t border-vera-border pt-10 md:mt-20">
+    <div className="mt-12 border-t border-vera-border pt-8 md:mt-16">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
