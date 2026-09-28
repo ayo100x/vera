@@ -3,20 +3,20 @@ const AffiliatePurchaseColumn = ({ product, fromResults, match, market }) => {
   return (
     <div className="lg:col-span-5">
       <div className="lg:sticky lg:top-24">
-        <h1 className="font-display text-[1.85rem] leading-[1.12] tracking-tight md:text-[2.2rem]">
+        <h1 className="font-display text-[1.7rem] leading-[1.12] tracking-tight md:text-[2rem]">
           {product.name}
         </h1>
 
-        <p className="mt-5 text-[1.4rem] tabular-nums tracking-tight">
+        <p className="mt-4 text-[1.25rem] tabular-nums tracking-tight">
           ₦{product.price.toLocaleString()}
         </p>
 
-        <p className="mt-5 text-[14px] leading-relaxed text-vera-gray">
+        <p className="mt-4 text-[14px] leading-relaxed text-vera-gray">
           {product.description}
         </p>
 
         {/* ---------- VERA intelligence ---------- */}
-        <div className="mt-8 border-t border-vera-border pt-6">
+        <div className="mt-6 border-t border-vera-border pt-5">
           {fromResults && match ? (
             <div>
               <div className="flex items-baseline justify-between gap-3">
@@ -69,16 +69,16 @@ const AffiliatePurchaseColumn = ({ product, fromResults, match, market }) => {
         </div>
 
         {/* Actions */}
-        <div className="mt-8 space-y-2.5">
+        <div className="mt-6 space-y-2">
           <button
             type="button"
-            className="w-full rounded-full bg-vera-black py-3.5 text-[14px] text-white transition hover:bg-black"
+            className="w-full rounded-full bg-vera-black py-3 text-[14px] text-white transition hover:bg-black"
           >
             Add to bag
           </button>
           <button
             type="button"
-            className="w-full rounded-full border border-vera-border bg-white py-3.5 text-[14px] text-vera-black transition hover:border-vera-black"
+            className="w-full rounded-full border border-vera-border bg-white py-3 text-[14px] text-vera-black transition hover:border-vera-black"
           >
             Buy now from SHEIN
           </button>
