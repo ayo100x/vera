@@ -1,9 +1,9 @@
 const Footer = () => {
   return (
-    <footer className="py-12 px-5 border-t border-vera-border">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-vera-gray">
+    <footer className="py-10 px-5 border-t border-vera-border">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-5 text-sm text-vera-gray">
         <span className="font-display text-xl text-vera-black">VERA</span>
-        <div className="flex gap-8">
+        <div className="flex gap-6">
           <a href="#" className="hover:text-vera-black">
             Privacy
           </a>
