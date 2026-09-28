@@ -36,15 +36,15 @@ const OutfitBuilder = () => {
   const total = outfit.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <section className="py-24 px-5 bg-vera-warm">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="font-display text-4xl md:text-5xl text-center mb-4">
+    <section className="py-16 px-5 bg-vera-warm">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="font-display text-3xl md:text-4xl text-center mb-4">
           Complete the look
         </h2>
-        <p className="text-center text-vera-gray mb-14">
+        <p className="text-center text-vera-gray mb-8">
           One piece → an entire outfit that works.
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           {outfit.map((item, i) => (
             <motion.div
               key={item.name}
@@ -86,11 +86,11 @@ const OutfitBuilder = () => {
         </div>
         <div className="text-center">
           <p className="text-sm text-vera-gray">Complete look</p>
-          <p className="font-display text-3xl mt-1">
+          <p className="font-display text-2xl mt-1">
             ₦{total.toLocaleString()}
           </p>
           <Link to={`/look/${outfit.id}`}>
-            <button className="mt-6 bg-vera-black text-white px-8 py-3.5 rounded-full text-sm">
+            <button className="mt-5 bg-vera-black text-white px-7 py-3 rounded-full text-sm">
               Get the look
             </button>
           </Link>
