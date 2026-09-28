@@ -36,11 +36,11 @@ const ProductPage = () => {
       <NavBar />
 
       {/* main */}
-      <div className="mx-auto max-w-7xl px-5 pb-28 pt-24 md:pb-24 md:pt-28">
+      <div className="mx-auto max-w-5xl px-5 pb-20 pt-18 md:pb-18 md:pt-20">
         <ProductBreadcrumbs product={product} fromResults={fromResults} />
 
         {/* Hero */}
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
           <ProductGallery product={product} />
           {isMarketplace ? (
             <PurchaseColumn
