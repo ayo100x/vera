@@ -9,7 +9,7 @@ const ProductOutfitBuilder = ({ COMPLETE_LOOK }) => {
   );
 
   return (
-    <section className="mt-16 rounded-2xl bg-vera-warm px-5 py-10 md:mt-20 md:px-10 md:py-12">
+    <section className="mt-12 rounded-2xl bg-vera-warm px-4 py-8 md:mt-16 md:px-8 md:py-10">
       <h2 className="text-center font-display text-2xl tracking-tight md:text-3xl">
         Complete the look
       </h2>
@@ -17,7 +17,7 @@ const ProductOutfitBuilder = ({ COMPLETE_LOOK }) => {
         Pieces that work with this shirt.
       </p>
 
-      <div className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4 md:gap-4">
+      <div className="mx-auto mt-6 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4 md:gap-3">
         {COMPLETE_LOOK.map((item, i) => (
           <motion.div
             key={item.id}
@@ -51,13 +51,13 @@ const ProductOutfitBuilder = ({ COMPLETE_LOOK }) => {
         ))}
       </div>
 
-      <div className="mt-10 text-center">
+      <div className="mt-8 text-center">
         <p className="text-[12px] text-vera-gray">Complete look</p>
         <p className="mt-1 font-display text-[1.7rem] tracking-tight tabular-nums">
           ₦{lookTotal.toLocaleString()}
         </p>
         <Link to={`/look/${COMPLETE_LOOK.id}`}>
-          <button className="mt-5 rounded-full bg-vera-black px-8 py-3 text-[13px] text-white transition hover:bg-black">
+          <button className="mt-4 rounded-full bg-vera-black px-7 py-2.5 text-[13px] text-white transition hover:bg-black">
              Get the look
           </button>
         </Link>
