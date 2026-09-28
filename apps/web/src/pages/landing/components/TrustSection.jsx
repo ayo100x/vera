@@ -2,19 +2,19 @@ import { X } from "lucide-react";
 
 const TrustSection = () => {
   return (
-    <section className="py-24 px-5 max-w-5xl mx-auto">
-      <h2 className="font-display text-4xl md:text-5xl text-center mb-6">
+    <section className="py-16 px-5 max-w-3xl mx-auto">
+      <h2 className="font-display text-3xl md:text-4xl text-center mb-5">
         Not everything you find
         <br />
         is worth buying
       </h2>
-      <p className="text-center text-vera-gray max-w-xl mx-auto mb-16">
+      <p className="text-center text-vera-gray max-w-lg mx-auto mb-10">
         VERA is on your side. It compares price, trust, quality, fit, and
         delivery before recommending.
       </p>
-      <div className="bg-white border border-vera-border rounded-2xl p-8 max-w-lg mx-auto">
-        <div className="flex gap-5">
-          <div className="w-24 h-32 rounded-lg bg-vera-warm overflow-hidden flex-shrink-0">
+      <div className="bg-white border border-vera-border rounded-2xl p-6 max-w-md mx-auto">
+        <div className="flex gap-4">
+          <div className="w-20 h-28 rounded-lg bg-vera-warm overflow-hidden flex-shrink-0">
             <img
               src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?q=80&w=300&auto=format&fit=crop"
               className="w-full h-full object-cover"
@@ -22,8 +22,8 @@ const TrustSection = () => {
           </div>
           <div className="flex-1">
             <p className="font-medium">Linen Blazer</p>
-            <p className="text-lg mt-1">₦120,000</p>
-            <div className="mt-4 flex items-center gap-2 text-sm text-red-600">
+            <p className="text-base mt-1">₦120,000</p>
+            <div className="mt-3 flex items-center gap-2 text-sm text-red-600">
               <X size={16} /> Skip this one
             </div>
             <p className="text-xs text-vera-gray mt-2 leading-relaxed">
