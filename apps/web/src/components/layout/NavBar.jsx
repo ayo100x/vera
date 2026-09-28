@@ -8,15 +8,15 @@ const NavBar = () => {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-vera-border/80 bg-vera-offwhite/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-6">
+      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 md:h-13 md:px-6">
         <Link
           to="/"
-          className="font-display text-[1.35rem] tracking-tight text-vera-black transition hover:opacity-80"
+          className="font-display text-[1.1rem] tracking-tight text-vera-black transition hover:opacity-80"
         >
           VERA
         </Link>
 
-        <nav className="hidden items-center gap-10 text-[13px] tracking-wide text-vera-gray md:flex">
+        <nav className="hidden items-center gap-8 text-[13px] tracking-wide text-vera-gray md:flex">
           <a
             href="/#heroId"
             className="transition-colors duration-200 hover:text-vera-black"
@@ -109,12 +109,13 @@ const NavBar = () => {
               </nav>
 
               <div className="mt-6 flex flex-col gap-1">
-                <button
+                {/* search mobile */}
+                {/* <button
                   type="button"
                   className="py-2.5 text-left text-[13px] tracking-wide text-vera-gray transition-colors hover:text-vera-black"
                 >
                   Search
-                </button>
+                </button> */}
                 <button
                   type="button"
                   className="py-2.5 text-left text-[13px] tracking-wide text-vera-gray transition-colors hover:text-vera-black"
