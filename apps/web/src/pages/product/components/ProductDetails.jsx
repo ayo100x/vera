@@ -6,7 +6,7 @@ const ProductDetails = ({ DETAIL_ROWS, product }) => {
   const [openDetail, setOpenDetail] = useState(DETAIL_ROWS[0].key);
 
   return (
-    <section className="mx-auto mt-14 max-w-2xl md:mt-16">
+    <section className="mx-auto mt-12 max-w-2xl md:mt-14">
       <h2 className="font-display text-2xl tracking-tight">Details</h2>
       <div className="mt-5 divide-y divide-vera-border border-y border-vera-border">
         {DETAIL_ROWS.map((row) => {
@@ -16,7 +16,7 @@ const ProductDetails = ({ DETAIL_ROWS, product }) => {
               <button
                 type="button"
                 onClick={() => setOpenDetail(open ? null : row.key)}
-                className="flex w-full items-center justify-between py-4 text-left"
+                className="flex w-full items-center justify-between py-3.5 text-left"
                 aria-expanded={open}
               >
                 <span className="text-[14px] font-medium">{row.label}</span>
