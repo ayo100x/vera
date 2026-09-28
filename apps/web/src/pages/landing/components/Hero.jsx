@@ -7,19 +7,26 @@ import {
   CHEAPER_ITEMS,
   PREMIUM_ITEMS,
   steps,
+  OPTIONS,
 } from "../data/landingData";
 
-const Hero = ({ heroImage, resetHeroMessage }) => {
+const Hero = ({ heroImage, resetHeroImage }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  // console.log(searchParams);
+  const [image, setImage] = useState(null);
+  const [inputMode, setInputMode] = useState("");
   const [stage, setStage] = useState(
     searchParams.get("hero") === "results" ? "results" : "idle",
   );
-  const [selected, setSelected] = useState(searchParams.get("mode") || null);
-  const [image, setImage] = useState(null);
+
   const [analysisStep, setAnalysisStep] = useState(0);
+
   const [query, setQuery] = useState("");
+
   const [submittedQuery, setSubmittedQuery] = useState("");
-  const [inputMode, setInputMode] = useState("");
+
+  // Current selected mode in results stage -
+  const [selected, setSelected] = useState(searchParams.get("mode") || null);
 
   const fileSelect = useRef(null);
 
@@ -29,8 +36,13 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
 
     setTimeout(() => {
       // set a 3 second second timeout before setting stage to results
+
+      // Note: the timeout is a prototype for the analyzeImage fx - instead of a timer -
+
+      // const results = await analyzeImage(...);
+
       setStage("results");
-    }, 1000);
+    }, 4000);
   };
 
   useEffect(() => {
@@ -38,10 +50,10 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
       return;
     }
 
-    setAnalysisStep(0);
+    setAnalysisStep(0); // set analysis step to 0
 
     const interval = setInterval(() => {
-      setAnalysisStep((prev) => prev + 1);
+      setAnalysisStep((prev) => prev + 1); // At every 1s interval increase the analysis step by 1. {0,1,2,3....}
     }, 1000);
 
     return () => clearInterval(interval);
@@ -57,9 +69,10 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
   }, [heroImage]);
 
   const handleFileUpload = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]; // the one image a user is uploading
+    // console.log(file); // returns an object
     if (file) {
-      const fileToURL = URL.createObjectURL(file); // create url for image file
+      const fileToURL = URL.createObjectURL(file); // create url for image
       setImage(fileToURL);
     }
   };
@@ -107,13 +120,13 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
   }, [stage, selected, setSearchParams]);
 
   return (
-    <section className="mx-auto max-w-7xl px-5 pb-20 pt-28 " id="heroId">
+    <section className="mx-auto max-w-5xl px-5 pb-14 pt-20 " id="heroId">
       {/* Hero heading */}
-      <div className="mx-auto mb-14 max-w-3xl text-center">
+      <div className="mx-auto mb-10 max-w-2xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-6xl"
+          className="font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-5xl"
         >
           Found something
           <br />
@@ -124,7 +137,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mx-auto mt-6 max-w-xl text-lg text-vera-gray"
+          className="mx-auto mt-4 max-w-lg text-base text-vera-gray"
         >
           Show VERA. It finds the exact product, better alternatives, and tells
           you what’s actually worth buying.
@@ -133,7 +146,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
 
       {/* Interactive Demo */}
       <div
-        className="relative mx-auto max-w-5xl scroll-mt-50"
+        className="relative mx-auto max-w-[52rem] scroll-mt-28"
         id="heroInteraction"
       >
         <AnimatePresence mode="wait">
@@ -144,12 +157,12 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid items-center gap-8 md:grid-cols-2"
+              className="grid items-center gap-6 md:grid-cols-2"
             >
               {/* Inspiration image */}
               <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-vera-border bg-vera-warm">
                 <img
-                  src={image || heroImage || DEMO_OUTFIT.source}
+                  src={image || DEMO_OUTFIT.source}
                   alt={image ? "User uploaded image" : "VERA demo"}
                   className="h-full w-full object-cover"
                 />
@@ -170,9 +183,9 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
               </div>
 
               {/* Upload / CTA */}
-              <div className="flex flex-col items-center justify-center gap-6 py-12">
+              <div className="flex flex-col items-center justify-center gap-5 py-10">
                 <button
-                  className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-vera-border"
+                  className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-vera-border"
                   onClick={() => fileSelect.current.click()}
                 >
                   <Upload size={24} className="text-vera-gray" />
@@ -192,7 +205,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
 
                 <button
                   onClick={startDemo}
-                  className="flex items-center gap-2 rounded-full bg-vera-black px-8 py-3.5 text-sm font-medium text-white transition hover:bg-black"
+                  className="flex items-center gap-2 rounded-full bg-vera-black px-7 py-3 text-sm font-medium text-white transition hover:bg-black"
                 >
                   <Camera size={16} />
                   Try with this look
@@ -213,12 +226,13 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
-              className="flex flex-col items-center justify-center py-20 md:py-28"
+              className="flex flex-col items-center justify-center py-12 md:py-16"
             >
-              <div className="relative w-full max-w-46 sm:max-w-[13rem]">
-                <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
+              {/* Image  */}
+              <div className="relative w-full max-w-44 sm:max-w-48">
+                <div className="relative aspect-3/4 overflow-hidden rounded-xl bg-vera-warm">
                   <img
-                    src={image || heroImage || DEMO_OUTFIT.source}
+                    src={image || DEMO_OUTFIT.source}
                     alt="Analyzing"
                     className="h-full w-full object-cover"
                   />
@@ -251,8 +265,8 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                   />
                 </div>
               </div>
-
-              <div className="mt-10 w-full max-w-xs text-center">
+              <div className="mt-8 w-full max-w-xs text-center">
+                {/* STEPS */}
                 <AnimatePresence mode="wait">
                   <motion.p
                     key={analysisStep}
@@ -262,12 +276,13 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                     transition={{ duration: 0.25 }}
                     className="text-[13.5px] leading-relaxed text-vera-black"
                   >
+                    {/* {steps[analysisStep]} - bad*/}
                     {steps[Math.min(analysisStep, steps.length - 1)]}
                   </motion.p>
                 </AnimatePresence>
 
                 {/* Progress marks */}
-                <div className="mt-6 flex items-center justify-center gap-1.5">
+                <div className="mt-5 flex items-center justify-center gap-1.5">
                   {steps.map((_, i) => (
                     <motion.div
                       key={i}
@@ -299,14 +314,14 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
-              className="flex flex-col items-center justify-center px-2 py-20 md:py-28"
+              className="flex flex-col items-center justify-center px-2 py-12 md:py-16"
             >
               <div className="w-full max-w-lg text-center">
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="font-display text-[1.65rem] leading-[1.2] tracking-tight text-vera-black sm:text-[1.9rem] md:text-[2.15rem]"
+                  className="font-display text-[1.5rem] leading-[1.2] tracking-tight text-vera-black sm:text-[1.7rem] md:text-[1.9rem]"
                 >
                   “{submittedQuery || "clean wedding outfit under ₦150k"}”
                 </motion.p>
@@ -315,10 +330,10 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
-                  className="mx-auto mt-8 h-px w-16 origin-center bg-vera-border"
+                  className="mx-auto mt-6 h-px w-12 origin-center bg-vera-border"
                 />
 
-                <div className="mt-8">
+                <div className="mt-6">
                   <AnimatePresence mode="wait">
                     <motion.p
                       key={analysisStep}
@@ -328,27 +343,24 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                       transition={{ duration: 0.25 }}
                       className="text-[13.5px] leading-relaxed text-vera-gray"
                     >
-                      {
-                        [
-                          "VERA is understanding your request…",
-                          "Picking up the details…",
-                          "Finding pieces that fit…",
-                          "Comparing the strongest matches…",
-                        ][Math.min(analysisStep, 3)]
-                      }
+                      {steps[Math.min(analysisStep, steps.length - 1)]}
                     </motion.p>
                   </AnimatePresence>
 
-                  <div className="mt-6 flex items-center justify-center gap-1.5">
-                    {[0, 1, 2, 3].map((i) => (
+                  {/* Progress marks */}
+                  <div className="mt-5 flex items-center justify-center gap-1.5">
+                    {steps.map((_, i) => (
                       <motion.div
                         key={i}
                         className="h-[2px] rounded-full"
                         initial={false}
                         animate={{
-                          width: i === Math.min(analysisStep, 3) ? 20 : 8,
+                          width:
+                            i === Math.min(analysisStep, steps.length - 1)
+                              ? 20
+                              : 8,
                           backgroundColor:
-                            i <= Math.min(analysisStep, 3)
+                            i <= Math.min(analysisStep, steps.length - 1)
                               ? "#0A0A0A"
                               : "#E8E4DF",
                         }}
@@ -368,7 +380,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="space-y-9"
+              className="space-y-7"
             >
               {/* Header */}
               <div className="flex items-start justify-between gap-4">
@@ -378,6 +390,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-[13px] text-vera-gray"
                   >
+                    
                     {selected === "cheaper" || selected === "premium"
                       ? `${DEMO_OUTFIT.items.length} original matches`
                       : `${DEMO_OUTFIT.items.length} pieces recognised`}
@@ -387,7 +400,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 }}
-                    className="mt-1.5 font-display text-[1.75rem] leading-[1.12] tracking-tight md:text-[2.15rem]"
+                    className="mt-1.5 font-display text-[1.6rem] leading-[1.12] tracking-tight md:text-[1.9rem]"
                   >
                     {inputMode === "text"
                       ? "Strong matches for your search"
@@ -405,8 +418,8 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                   onClick={() => {
                     setStage("idle");
                     setSelected(null);
-                    resetHeroMessage();
                     setImage(DEMO_OUTFIT.source);
+                    resetHeroImage();
                   }}
                   className="mt-1 flex shrink-0 items-center gap-1.5 text-[13px] text-vera-gray transition hover:text-vera-black"
                 >
@@ -429,7 +442,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                       {DEMO_OUTFIT.items.map((item) => (
                         <div
                           key={item.id}
-                          className="h-14 w-11 overflow-hidden rounded-md bg-vera-warm sm:h-16 sm:w-12"
+                          className="h-12 w-9 overflow-hidden rounded-md bg-vera-warm sm:h-14 sm:w-11"
                         >
                           <img
                             src={item.image}
@@ -469,9 +482,9 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.04 }}
-                            className="w-[4.5rem] sm:w-24"
+                            className="w-16 sm:w-20"
                           >
-                            <div className="aspect-[3/4] overflow-hidden rounded-lg bg-vera-warm">
+                            <div className="aspect-3/4 overflow-hidden rounded-lg bg-vera-warm">
                               <img
                                 src={item.image}
                                 alt={item.name}
@@ -482,7 +495,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                         ))}
                       </div>
 
-                      <p className="mt-8 font-display text-[2.1rem] tracking-tight tabular-nums">
+                      <p className="mt-6 font-display text-[1.8rem] tracking-tight tabular-nums">
                         ₦
                         {DEMO_OUTFIT.items
                           .reduce((sum, item) => sum + item.price, 0)
@@ -493,21 +506,21 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                         {DEMO_OUTFIT.items.map((item) => item.name).join(" · ")}
                       </p>
 
-                      <button className="mt-7 rounded-full bg-vera-black px-8 py-3 text-[13px] text-white transition hover:bg-black">
+                      <button className="mt-6 rounded-full bg-vera-black px-7 py-2.5 text-[13px] text-white transition hover:bg-black">
                         Get the full look
                       </button>
                     </div>
                   ) : (
                     /* Product grid — closest / cheaper / premium */
                     <div
-                      className={`grid gap-x-4 gap-y-7 ${
+                      className={`grid gap-x-3 gap-y-5 ${
                         (selected === "cheaper"
                           ? CHEAPER_ITEMS
                           : selected === "premium"
                             ? PREMIUM_ITEMS
                             : DEMO_OUTFIT.items
                         ).length <= 2
-                          ? "mx-auto max-w-md grid-cols-2"
+                          ? "mx-auto max-w-sm grid-cols-2"
                           : "grid-cols-2 md:grid-cols-4"
                       }`}
                     >
@@ -532,7 +545,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                             }}
                             className="group"
                           >
-                            <div className="mb-3 aspect-[3/4] overflow-hidden rounded-xl bg-vera-warm">
+                            <div className="mb-2 aspect-3/4 overflow-hidden rounded-xl bg-vera-warm">
                               <img
                                 src={item.image}
                                 alt={item.name}
@@ -565,7 +578,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="space-y-3.5 border-t border-vera-border pt-7"
+                  className="space-y-3 border-t border-vera-border pt-6"
                 >
                   <p className="text-center text-[12.5px] text-vera-gray">
                     {selected
@@ -573,17 +586,13 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                       : "Decide what to do with these matches"}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {[
-                      { key: "cheaper", label: "Find it for less" },
-                      { key: "premium", label: "Better versions" },
-                      { key: "complete", label: "Get the full look" },
-                    ].map((opt) => (
+                    {OPTIONS.map((opt) => (
                       <button
                         key={opt.key}
                         onClick={() =>
                           setSelected(selected === opt.key ? null : opt.key)
                         }
-                        className={`rounded-full px-4.5 py-2.5 text-[13px] transition ${
+                        className={`rounded-full px-4 py-2 text-[13px] transition ${
                           selected === opt.key
                             ? "bg-vera-black text-white"
                             : "border border-vera-border bg-white text-vera-black hover:border-vera-black"
@@ -603,17 +612,13 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                   animate={{ opacity: 1 }}
                   className="flex flex-wrap justify-center gap-2 pt-2"
                 >
-                  {[
-                    { key: "cheaper", label: "Find it for less" },
-                    { key: "premium", label: "Better versions" },
-                    { key: "complete", label: "Get the full look" },
-                  ].map((opt) => (
+                  {OPTIONS.map((opt) => (
                     <button
                       key={opt.key}
                       onClick={() =>
                         setSelected(selected === opt.key ? null : opt.key)
                       }
-                      className={`rounded-full px-4.5 py-2.5 text-[13px] transition ${
+                      className={`rounded-full px-4 py-2 text-[13px] transition ${
                         selected === opt.key
                           ? "bg-vera-black text-white"
                           : "border border-vera-border bg-white text-vera-black hover:border-vera-black"
@@ -630,7 +635,7 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
       </div>
 
       {/* Secondary interaction */}
-      <div className="mx-auto mt-16 max-w-2xl">
+      <div className="mx-auto mt-10 max-w-lg">
         <div className="relative">
           <input
             type="text"
@@ -639,14 +644,14 @@ const Hero = ({ heroImage, resetHeroMessage }) => {
                 ? "Ask VERA to refine these results..."
                 : "What are you looking for? e.g. clean wedding outfit under ₦150k"
             }
-            className="w-full rounded-full border border-vera-border bg-white py-4 pl-6 pr-14 text-sm focus:outline-none focus:ring-1 focus:ring-vera-black"
+            className="w-full rounded-full border border-vera-border bg-white py-3 pl-4 pr-11 text-sm focus:outline-none focus:ring-1 focus:ring-vera-black"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
 
           <button
             onClick={handleTextSearch}
-            className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-vera-black text-white"
+            className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-vera-black text-white"
           >
             <Search size={16} />
           </button>
