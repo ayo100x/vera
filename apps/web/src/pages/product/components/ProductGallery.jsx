@@ -15,7 +15,7 @@ const ProductGallery = ({ product }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28 }}
-            className="aspect-4/5 w-full object-cover"
+            className="aspect-[4/3] w-full object-cover lg:aspect-4/5"
           />
         </AnimatePresence>
       </div>
