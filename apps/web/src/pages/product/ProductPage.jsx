@@ -36,7 +36,7 @@ const ProductPage = () => {
       <NavBar />
 
       {/* main */}
-      <div className="mx-auto max-w-5xl px-5 pb-20 pt-18 md:pb-18 md:pt-20">
+      <div className="mx-auto max-w-5xl px-4 pb-16 pt-16 md:px-5 md:pb-18 md:pt-20">
         <ProductBreadcrumbs product={product} fromResults={fromResults} />
 
         {/* Hero */}
