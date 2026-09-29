@@ -7,8 +7,8 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-vera-border/80 bg-vera-offwhite/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 md:h-13 md:px-6">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-vera-border/80 bg-vera-offwhite">
+      <div className="mx-auto flex h-13 max-w-5xl items-center justify-between px-4 md:h-13 md:px-6">
         <Link
           to="/"
           className="font-display text-[1.1rem] tracking-tight text-vera-black transition hover:opacity-80"
@@ -83,7 +83,7 @@ const NavBar = () => {
             transition={{ duration: 0.22, ease: "easeOut" }}
             className="overflow-hidden border-t border-vera-border/80 md:hidden"
           >
-            <div className="bg-vera-offwhite px-5 pb-7 pt-2">
+            <div className="bg-vera-offwhite px-4 pb-6 pt-2 md:px-5">
               <nav className="flex flex-col">
                 <a
                   href="/#heroId"
