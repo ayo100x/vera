@@ -31,6 +31,9 @@ const Hero = ({ heroImage, resetHeroImage }) => {
   const fileSelect = useRef(null);
 
   const startDemo = () => {
+    document.getElementById("heroInteraction")?.scrollIntoView({
+      behavior: "smooth",
+    });
     setInputMode("image");
     setStage("analyzing"); // set to analyzing stage - analyzing stage should have two ui for 2 diff use case image and text
 
@@ -87,7 +90,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
     setStage("analyzing");
 
     //
-    document.getElementById("heroId")?.scrollIntoView({
+    document.getElementById("heroInteraction")?.scrollIntoView({
       behavior: "smooth",
     });
 
@@ -120,13 +123,16 @@ const Hero = ({ heroImage, resetHeroImage }) => {
   }, [stage, selected, setSearchParams]);
 
   return (
-    <section className="mx-auto max-w-5xl px-5 pb-14 pt-20 " id="heroId">
+    <section
+      className="mx-auto max-w-5xl px-4 pb-10 pt-14 md:px-5 md:pb-14 md:pt-20"
+      id="heroId"
+    >
       {/* Hero heading */}
-      <div className="mx-auto mb-10 max-w-2xl text-center">
+      <div className="mx-auto mb-6 max-w-2xl text-center md:mb-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-5xl"
+          className="font-display text-3xl leading-[1.05] tracking-tight sm:text-4xl md:text-5xl"
         >
           Found something
           <br />
@@ -137,7 +143,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mx-auto mt-4 max-w-lg text-base text-vera-gray"
+          className="mx-auto mt-3 max-w-lg px-2 text-[15px] text-vera-gray md:mt-4 md:px-0 md:text-base"
         >
           Show VERA. It finds the exact product, better alternatives, and tells
           you what’s actually worth buying.
@@ -157,10 +163,10 @@ const Hero = ({ heroImage, resetHeroImage }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid items-center gap-6 md:grid-cols-2"
+              className="grid items-center gap-3 md:grid-cols-2 md:gap-6"
             >
               {/* Inspiration image */}
-              <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-vera-border bg-vera-warm">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-vera-border bg-vera-warm md:aspect-[3/4]">
                 <img
                   src={image || DEMO_OUTFIT.source}
                   alt={image ? "User uploaded image" : "VERA demo"}
@@ -169,7 +175,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
                 {/* shadow overlay on image*/}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
-                <div className="absolute bottom-6 left-6 right-6 text-white">
+                <div className="absolute bottom-4 left-4 right-4 text-white md:bottom-6 md:left-6 md:right-6">
                   <p className="text-sm opacity-80">
                     {image ? "Your image" : "Selected from VERA"}
                   </p>
@@ -183,9 +189,9 @@ const Hero = ({ heroImage, resetHeroImage }) => {
               </div>
 
               {/* Upload / CTA */}
-              <div className="flex flex-col items-center justify-center gap-5 py-10">
+              <div className="flex flex-col items-center justify-center gap-3 py-5 md:gap-5 md:py-10">
                 <button
-                  className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-vera-border"
+                  className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed border-vera-border md:h-14 md:w-14"
                   onClick={() => fileSelect.current.click()}
                 >
                   <Upload size={24} className="text-vera-gray" />
@@ -205,7 +211,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
 
                 <button
                   onClick={startDemo}
-                  className="flex items-center gap-2 rounded-full bg-vera-black px-7 py-3 text-sm font-medium text-white transition hover:bg-black"
+                  className="flex items-center gap-2 rounded-full bg-vera-black px-6 py-2.5 text-sm font-medium text-white transition hover:bg-black md:px-7 md:py-3"
                 >
                   <Camera size={16} />
                   Try with this look
@@ -226,7 +232,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
-              className="flex flex-col items-center justify-center py-12 md:py-16"
+              className="flex flex-col items-center justify-center py-8 md:py-16"
             >
               {/* Image  */}
               <div className="relative w-full max-w-44 sm:max-w-48">
@@ -314,14 +320,14 @@ const Hero = ({ heroImage, resetHeroImage }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
-              className="flex flex-col items-center justify-center px-2 py-12 md:py-16"
+              className="flex flex-col items-center justify-center px-2 py-8 md:py-16"
             >
               <div className="w-full max-w-lg text-center">
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="font-display text-[1.5rem] leading-[1.2] tracking-tight text-vera-black sm:text-[1.7rem] md:text-[1.9rem]"
+                  className="break-words font-display text-[1.35rem] leading-[1.2] tracking-tight text-vera-black sm:text-[1.7rem] md:text-[1.9rem]"
                 >
                   “{submittedQuery || "clean wedding outfit under ₦150k"}”
                 </motion.p>
@@ -383,14 +389,13 @@ const Hero = ({ heroImage, resetHeroImage }) => {
               className="space-y-7"
             >
               {/* Header */}
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
                 <div className="max-w-md">
                   <motion.p
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-[13px] text-vera-gray"
                   >
-                    
                     {selected === "cheaper" || selected === "premium"
                       ? `${DEMO_OUTFIT.items.length} original matches`
                       : `${DEMO_OUTFIT.items.length} pieces recognised`}
@@ -400,7 +405,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 }}
-                    className="mt-1.5 font-display text-[1.6rem] leading-[1.12] tracking-tight md:text-[1.9rem]"
+                    className="mt-1.5 break-words font-display text-[1.45rem] leading-[1.12] tracking-tight sm:text-[1.6rem] md:text-[1.9rem]"
                   >
                     {inputMode === "text"
                       ? "Strong matches for your search"
@@ -421,7 +426,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
                     setImage(DEMO_OUTFIT.source);
                     resetHeroImage();
                   }}
-                  className="mt-1 flex shrink-0 items-center gap-1.5 text-[13px] text-vera-gray transition hover:text-vera-black"
+                  className="flex shrink-0 items-center gap-1.5 text-[13px] text-vera-gray transition hover:text-vera-black sm:mt-1"
                 >
                   <X size={14} strokeWidth={1.75} />
                   Start over
@@ -475,14 +480,14 @@ const Hero = ({ heroImage, resetHeroImage }) => {
                   {selected === "complete" ? (
                     /* Full look — one calm composition */
                     <div className="mx-auto max-w-xl text-center">
-                      <div className="flex justify-center gap-2 sm:gap-2.5">
+                      <div className="flex justify-center gap-1.5 sm:gap-2.5">
                         {DEMO_OUTFIT.items.map((item, i) => (
                           <motion.div
                             key={item.id}
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.04 }}
-                            className="w-16 sm:w-20"
+                            className="w-14 sm:w-20"
                           >
                             <div className="aspect-3/4 overflow-hidden rounded-lg bg-vera-warm">
                               <img
@@ -635,7 +640,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
       </div>
 
       {/* Secondary interaction */}
-      <div className="mx-auto mt-10 max-w-lg">
+      <div className="mx-auto mt-8 max-w-lg md:mt-10">
         <div className="relative">
           <input
             type="text"
@@ -644,7 +649,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
                 ? "Ask VERA to refine these results..."
                 : "What are you looking for? e.g. clean wedding outfit under ₦150k"
             }
-            className="w-full rounded-full border border-vera-border bg-white py-3 pl-4 pr-11 text-sm focus:outline-none focus:ring-1 focus:ring-vera-black"
+            className="min-w-0 w-full rounded-full border border-vera-border bg-white py-3 pl-4 pr-11 text-base focus:outline-none focus:ring-1 focus:ring-vera-black md:text-sm"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
