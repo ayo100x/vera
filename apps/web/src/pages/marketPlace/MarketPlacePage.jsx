@@ -8,7 +8,7 @@ const MarketPlacePage = () => {
     <div className="flex min-h-screen flex-col bg-vera-offwhite text-vera-black">
       <NavBar />
 
-      <main className="flex flex-1 flex-col justify-center px-5 pb-16 pt-20 md:pb-20 md:pt-24">
+      <main className="flex flex-1 flex-col justify-center px-4 pb-16 pt-16 md:px-5 md:pb-20 md:pt-24">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
