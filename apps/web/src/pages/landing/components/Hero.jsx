@@ -122,6 +122,18 @@ const Hero = ({ heroImage, resetHeroImage }) => {
     );
   }, [stage, selected, setSearchParams]);
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && e.shiftKey) return;
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (!query.trim()) return;
+
+      handleTextSearch();
+    }
+  };
+
   return (
     <section
       className="mx-auto max-w-5xl px-4 pb-10 pt-14 md:px-5 md:pb-14 md:pt-20"
@@ -651,6 +663,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
             }
             className="min-w-0 w-full rounded-full border border-vera-border bg-white py-3 pl-4 pr-11 text-base focus:outline-none focus:ring-1 focus:ring-vera-black md:text-sm"
             value={query}
+            onKeyDown={handleKeyDown}
             onChange={(e) => setQuery(e.target.value)}
           />
 
