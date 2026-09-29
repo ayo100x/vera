@@ -128,7 +128,7 @@ const LookPage = () => {
     <div className="min-h-screen bg-vera-offwhite text-vera-black">
       <NavBar />
 
-      <main className="mx-auto max-w-3xl px-5 pb-24 pt-18 md:pb-20 md:pt-20">
+      <main className="mx-auto max-w-3xl px-4 pb-20 pt-16 md:px-5 md:pb-20 md:pt-20">
         {/* Quiet introduction */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -165,7 +165,7 @@ const LookPage = () => {
                   <img
                     src={active.item.image}
                     alt={active.item.name}
-                    className="aspect-3/4 w-full object-cover"
+                    className="aspect-[4/3] w-full object-cover md:aspect-3/4"
                   />
                 </Link>
               </div>
