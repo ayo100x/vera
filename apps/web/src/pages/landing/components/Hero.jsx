@@ -30,10 +30,15 @@ const Hero = ({ heroImage, resetHeroImage }) => {
 
   const fileSelect = useRef(null);
 
-  const startDemo = () => {
+  const effectiveScroll = () => {
     document.getElementById("heroInteraction")?.scrollIntoView({
       behavior: "smooth",
     });
+  };
+
+  const startDemo = () => {
+    effectiveScroll();
+    setSelected(null);
     setInputMode("image");
     setStage("analyzing"); // set to analyzing stage - analyzing stage should have two ui for 2 diff use case image and text
 
@@ -81,6 +86,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
   };
 
   const handleTextSearch = () => {
+    if (stage === "analyzing") return;
     if (!query.trim()) return;
 
     setSubmittedQuery(query);
@@ -88,11 +94,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
     setInputMode("text");
     setAnalysisStep(0);
     setStage("analyzing");
-
-    //
-    document.getElementById("heroInteraction")?.scrollIntoView({
-      behavior: "smooth",
-    });
+    effectiveScroll();
 
     setTimeout(() => {
       setStage("results");
@@ -123,15 +125,10 @@ const Hero = ({ heroImage, resetHeroImage }) => {
   }, [stage, selected, setSearchParams]);
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && e.shiftKey) return;
+    if (e.key !== "Enter") return;
 
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      if (!query.trim()) return;
-
-      handleTextSearch();
-    }
+    e.preventDefault();
+    handleTextSearch();
   };
 
   return (
@@ -164,7 +161,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
 
       {/* Interactive Demo */}
       <div
-        className="relative mx-auto max-w-[52rem] scroll-mt-28"
+        className="relative mx-auto max-w-208 scroll-mt-28"
         id="heroInteraction"
       >
         <AnimatePresence mode="wait">
@@ -272,7 +269,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
 
                   {/* Soft band trailing the scan */}
                   <motion.div
-                    className="absolute inset-x-0 h-16 bg-gradient-to-b from-white/20 to-transparent"
+                    className="absolute inset-x-0 h-16 bg-linear-to-b from-white/20 to-transparent"
                     initial={{ top: "0%" }}
                     animate={{ top: ["0%", "100%", "0%"] }}
                     transition={{
@@ -606,9 +603,10 @@ const Hero = ({ heroImage, resetHeroImage }) => {
                     {OPTIONS.map((opt) => (
                       <button
                         key={opt.key}
-                        onClick={() =>
-                          setSelected(selected === opt.key ? null : opt.key)
-                        }
+                        onClick={() => {
+                          (setSelected(selected === opt.key ? null : opt.key),
+                            effectiveScroll());
+                        }}
                         className={`rounded-full px-4 py-2 text-[13px] transition ${
                           selected === opt.key
                             ? "bg-vera-black text-white"
@@ -632,9 +630,10 @@ const Hero = ({ heroImage, resetHeroImage }) => {
                   {OPTIONS.map((opt) => (
                     <button
                       key={opt.key}
-                      onClick={() =>
-                        setSelected(selected === opt.key ? null : opt.key)
-                      }
+                      onClick={() => {
+                        setSelected(selected === opt.key ? null : opt.key);
+                        effectiveScroll();
+                      }}
                       className={`rounded-full px-4 py-2 text-[13px] transition ${
                         selected === opt.key
                           ? "bg-vera-black text-white"
@@ -656,10 +655,13 @@ const Hero = ({ heroImage, resetHeroImage }) => {
         <div className="relative">
           <input
             type="text"
+            disabled={stage === "analyzing"}
             placeholder={
-              stage === "results"
-                ? "Ask VERA to refine these results..."
-                : "What are you looking for? e.g. clean wedding outfit under ₦150k"
+              stage === "analyzing"
+                ? "VERA is analyzing..."
+                : stage === "results"
+                  ? "Ask VERA to refine these results..."
+                  : "What are you looking for? e.g. clean wedding outfit under ₦150k"
             }
             className="min-w-0 w-full rounded-full border border-vera-border bg-white py-3 pl-4 pr-11 text-base focus:outline-none focus:ring-1 focus:ring-vera-black md:text-sm"
             value={query}
@@ -669,6 +671,7 @@ const Hero = ({ heroImage, resetHeroImage }) => {
 
           <button
             onClick={handleTextSearch}
+            disabled={stage === "analyzing"}
             className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-vera-black text-white"
           >
             <Search size={16} />
