@@ -10,7 +10,7 @@ import {
   OPTIONS,
 } from "../data/landingData";
 
-const Hero = ({ heroImage, resetHeroImage }) => {
+const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams);
   const [image, setImage] = useState(null);
@@ -30,11 +30,6 @@ const Hero = ({ heroImage, resetHeroImage }) => {
 
   const fileSelect = useRef(null);
 
-  const effectiveScroll = () => {
-    document.getElementById("heroInteraction")?.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
 
   const startDemo = () => {
     effectiveScroll();
