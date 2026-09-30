@@ -26,13 +26,19 @@ const LandingPage = () => {
     });
   };
 
+  const effectiveScroll = () => {
+    document.getElementById("heroInteraction")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="min-h-screen">
       <NavBar scrollToHero={scrollToHero} />
-      <Hero heroImage={heroImage} resetHeroImage={resetHeroImage} />
+      <Hero heroImage={heroImage} resetHeroImage={resetHeroImage} effectiveScroll={effectiveScroll}/>
       <ProblemSection />
       <HowItWorks />
-      <MatchReveal setHeroImage={setHeroImage} />
+      <MatchReveal setHeroImage={setHeroImage} effectiveScroll={effectiveScroll} />
       <TrustSection />
       <PersonalizationSection />
       <AIStylistDemo />
