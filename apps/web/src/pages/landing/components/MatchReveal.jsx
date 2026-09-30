@@ -1,12 +1,9 @@
 import { HOLY_SHIT } from "../data/landingData";
 
-const MatchReveal = ({ setHeroImage }) => {
+const MatchReveal = ({ setHeroImage, effectiveScroll }) => {
   const handleRecreateLook = () => {
     setHeroImage(HOLY_SHIT.imageURL);
-    document.getElementById("heroInteraction")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    effectiveScroll();
   };
   return (
     <section className="py-16 px-5 bg-vera-warm">
