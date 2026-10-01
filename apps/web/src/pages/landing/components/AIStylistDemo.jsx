@@ -11,6 +11,7 @@ const AIStylistDemo = () => {
         Tell VERA what you need. It finds what actually fits.
       </p>
 
+      {/* CHAT DEMO WITH USER AND VERA */}
       <div className="max-w-2xl mx-auto mb-12 bg-white border border-vera-border rounded-2xl p-6 space-y-4">
         <div className="flex justify-end">
           <div className="bg-vera-black text-white text-sm rounded-2xl rounded-br-sm px-4 py-3 max-w-xs">
