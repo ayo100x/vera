@@ -72,6 +72,7 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
   }, [heroImage]);
 
   const handleFileUpload = (event) => {
+    effectiveScroll();
     const file = event.target.files[0]; // the one image a user is uploading
     // console.log(file); // returns an object
     if (file) {
