@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const FinalCTA = ({ scrollToHero }) => {
   return (
     <section className="py-20 px-5 bg-vera-black text-white text-center">
@@ -17,9 +19,13 @@ const FinalCTA = ({ scrollToHero }) => {
         >
           Try VERA
         </button>
-        <button className="border border-white/30 px-8 py-3 rounded-full text-sm hover:bg-white/10 transition">
+
+        <Link
+          to="/marketplace"
+          className="border border-white/30 px-8 py-3 rounded-full text-sm hover:bg-white/10 transition"
+        >
           Explore
-        </button>
+        </Link>
       </div>
     </section>
   );
