@@ -35,17 +35,17 @@ const MatchReveal = ({ setHeroImage, effectiveScroll }) => {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              {HOLY_SHIT.options.map((o) => (
+              {HOLY_SHIT.options.map((opt) => (
                 <div
-                  key={o.label}
+                  key={opt.label}
                   className="bg-white rounded-xl p-3.5 border border-vera-border"
                 >
-                  <p className="text-xs text-vera-gray">{o.label}</p>
+                  <p className="text-xs text-vera-gray">{opt.label}</p>
                   <p className="font-medium mt-1">
-                    ₦{o.price.toLocaleString()}
+                    ₦{opt.price.toLocaleString()}
                   </p>
                   <p className="text-xs text-vera-gray mt-0.5">
-                    {o.match}% match
+                    {opt.match}% match
                   </p>
                 </div>
               ))}
