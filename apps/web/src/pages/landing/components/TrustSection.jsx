@@ -17,6 +17,7 @@ const TrustSection = () => {
           <div className="w-20 h-28 rounded-lg bg-vera-warm overflow-hidden flex-shrink-0">
             <img
               src="https://images.unsplash.com/photo-1598033129183-c4f50c736f10?q=80&w=300&auto=format&fit=crop"
+              alt="Linen Blazer"
               className="w-full h-full object-cover"
             />
           </div>
