@@ -7,7 +7,8 @@ const SocialSharingSection = () => {
         Share what VERA finds
       </h2>
       <p className="text-vera-gray mb-10">
-        Make it viral. Friends will ask where you got it.
+        Found something worth sharing? Send the look, the match, and the price
+        to a friend.
       </p>
       <div className="bg-white border border-vera-border rounded-2xl p-6 max-w-sm mx-auto">
         <p className="text-xs text-vera-gray uppercase tracking-widest mb-4">
