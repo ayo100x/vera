@@ -599,7 +599,7 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
                       <button
                         key={opt.key}
                         onClick={() => {
-                          (setSelected(selected === opt.key ? null : opt.key),
+                          (setSelected(opt.key),
                             effectiveScroll());
                         }}
                         className={`rounded-full px-4 py-2 text-[13px] transition ${
@@ -626,7 +626,7 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
                     <button
                       key={opt.key}
                       onClick={() => {
-                        setSelected(selected === opt.key ? null : opt.key);
+                        setSelected(opt.key);
                         effectiveScroll();
                       }}
                       className={`rounded-full px-4 py-2 text-[13px] transition ${
