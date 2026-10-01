@@ -4,15 +4,16 @@ const Footer = () => {
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-5 text-sm text-vera-gray">
         <span className="font-display text-xl text-vera-black">VERA</span>
         <div className="flex gap-6">
-          <a href="#" className="hover:text-vera-black">
+          {/*  */}
+          <p className="hover:text-vera-black">
             Privacy
-          </a>
-          <a href="#" className="hover:text-vera-black">
+          </p>
+          <p className="hover:text-vera-black">
             Terms
-          </a>
-          <a href="#" className="hover:text-vera-black">
+          </p>
+          <p className="hover:text-vera-black">
             Contact
-          </a>
+          </p>
         </div>
         <p>© 2026 VERA</p>
       </div>
