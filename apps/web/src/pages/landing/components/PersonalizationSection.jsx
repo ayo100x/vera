@@ -19,12 +19,12 @@ const PersonalizationSection = () => {
           you spend, and what is actually worth recommending to you.
         </p>
         <div className="flex flex-wrap justify-center gap-2.5">
-          {traits.map((t) => (
+          {traits.map((trait) => (
             <span
-              key={t}
+              key={trait}
               className="px-4 py-1.5 rounded-full border border-white/20 text-sm"
             >
-              {t}
+              {trait}
             </span>
           ))}
         </div>
