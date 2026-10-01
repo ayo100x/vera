@@ -7,8 +7,8 @@ const SellerTrustSection = () => {
         Buy with confidence
       </h2>
       <p className="text-vera-gray max-w-md mx-auto mb-8">
-        Every seller on VERA is verified, so you can shop with accurate product
-        information, real reviews, and confidence in every purchase.
+        VERA is building a more trustworthy way to shop online — with clearer
+        product information, seller signals, reviews, and purchase options.
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 text-sm">
         {[
@@ -25,8 +25,9 @@ const SellerTrustSection = () => {
           </div>
         ))}
       </div>
-
-      <div className="mt-10 flex justify-center">
+      
+      {/* SELL ON VERA */}
+      {/* <div className="mt-10 flex justify-center">
         <a
           href="#seller-onboarding"
           className="group relative inline-flex items-center gap-2 pb-2 text-[13px]"
@@ -41,7 +42,7 @@ const SellerTrustSection = () => {
 
           <span className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-vera-black transition duration-300 group-hover:scale-x-100" />
         </a>
-      </div>
+      </div> */}
     </section>
   );
 };
