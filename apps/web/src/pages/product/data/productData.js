@@ -461,7 +461,7 @@ export const DETAIL_ROWS = [
   { key: "description", label: "Description" },
   { key: "material", label: "Material" },
   { key: "fit", label: "Fit" },
-  { key: "care", label: "Care" },
+  // { key: "care", label: "Care" },
   { key: "shipping", label: "Shipping" },
   { key: "returns", label: "Returns" },
 ];
