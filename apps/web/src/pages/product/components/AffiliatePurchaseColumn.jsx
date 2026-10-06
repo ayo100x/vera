@@ -1,22 +1,25 @@
-
-const AffiliatePurchaseColumn = ({ product, fromResults, match, market }) => {
+const AffiliatePurchaseColumn = ({ product, fromResults, match, assessment }) => {
   return (
     <div className="lg:col-span-5">
       <div className="lg:sticky lg:top-24">
+        {/* product name */}
         <h1 className="font-display text-[1.7rem] leading-[1.12] tracking-tight md:text-[2rem]">
           {product.name}
         </h1>
 
+        {/* product price */}
         <p className="mt-4 text-[1.25rem] tabular-nums tracking-tight">
           ₦{product.price.toLocaleString()}
         </p>
 
+        {/* product description */}
         <p className="mt-4 text-[14px] leading-relaxed text-vera-gray">
           {product.description}
         </p>
 
         {/* ---------- VERA intelligence ---------- */}
         <div className="mt-6 border-t border-vera-border pt-5">
+          {/* if this product is from result */}
           {fromResults && match ? (
             <div>
               <div className="flex items-baseline justify-between gap-3">
@@ -47,15 +50,15 @@ const AffiliatePurchaseColumn = ({ product, fromResults, match, market }) => {
                 VERA's take
               </p>
               <p className="mt-2.5 text-[13.5px] leading-relaxed text-vera-black">
-                {market?.verdict}
+                {assessment?.verdict}
               </p>
-              {market?.priceInsight && (
+              {assessment?.priceInsight && (
                 <p className="mt-2 text-[12.5px] text-vera-gray">
-                  {market.priceInsight}
+                  {assessment.priceInsight}
                 </p>
               )}
               <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
-                {(market?.insights || []).map((row) => (
+                {(assessment?.insights || []).map((row) => (
                   <div key={row.label}>
                     <p className="text-[11px] text-vera-gray">{row.label}</p>
                     <p className="mt-0.5 text-[13px] font-medium">
@@ -74,13 +77,13 @@ const AffiliatePurchaseColumn = ({ product, fromResults, match, market }) => {
             type="button"
             className="w-full rounded-full bg-vera-black py-3 text-[14px] text-white transition hover:bg-black"
           >
-            Add to bag
+            Shop now from {product.source.retailer}
           </button>
           <button
             type="button"
             className="w-full rounded-full border border-vera-border bg-white py-3 text-[14px] text-vera-black transition hover:border-vera-black"
           >
-            Buy now from SHEIN
+            Save
           </button>
         </div>
       </div>
