@@ -19,16 +19,18 @@ import AffiliatePurchaseColumn from "./components/AffiliatePurchaseColumn.jsx";
 
 const ProductPage = () => {
   const { id } = useParams();
-  const [searchParams] = useSearchParams();
 
+  const [searchParams] = useSearchParams();
   const source = searchParams.get("source");
+
   const fromResults = source === "results";
 
   const product = PRODUCTS[id] || PRODUCTS[1];
   const match = product.vera?.match;
-  const market = product.vera?.marketplace;
+  const assessment = product.vera?.assessment;
 
   const isMarketplace = product.source.type === "marketplace";
+  // const isAffiliate = product.source.type === "affiliate"
 
   return (
     <div className="min-h-screen bg-vera-offwhite text-vera-black">
@@ -40,14 +42,18 @@ const ProductPage = () => {
         <ProductBreadcrumbs product={product} fromResults={fromResults} />
 
         {/* Hero */}
-        <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
+        <div
+          className={`grid gap-6 lg:grid-cols-12 lg:gap-8 ${
+            isMarketplace ? "border-b border-vera-border pb-8" : ""
+          }`}
+        >
           <ProductGallery product={product} />
           {isMarketplace ? (
             <PurchaseColumn
               product={product}
               fromResults={fromResults}
               match={match}
-              market={market}
+              assessment={assessment}
             />
           ) : (
             // affiliate
@@ -55,19 +61,19 @@ const ProductPage = () => {
               product={product}
               fromResults={fromResults}
               match={match}
-              market={market}
+              assessment={assessment}
             />
           )}
         </div>
 
-        {isMarketplace && <SellerStrip product={product} />}
+        {/* {isMarketplace && <SellerStrip product={product} />} */}
 
         <ProductDetails DETAIL_ROWS={DETAIL_ROWS} product={product} />
         <SimilarProduct SIMILAR={SIMILAR} fromResults={fromResults} />
-        <ProductOutfitBuilder COMPLETE_LOOK={COMPLETE_LOOK} />
+        {/* <ProductOutfitBuilder COMPLETE_LOOK={COMPLETE_LOOK} /> */}
       </div>
 
-      <MobilePurchaseBar product={product} />
+      <MobilePurchaseBar product={product} isMarketplace={isMarketplace} />
 
       {/* Footer */}
       <Footer />
