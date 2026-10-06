@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const ProductGallery = ({ product }) => {
   const [activeImage, setActiveImage] = useState(0);
+  
   return (
     <div className="lg:col-span-6">
       <div className="overflow-hidden rounded-xl bg-vera-warm">
@@ -15,12 +16,12 @@ const ProductGallery = ({ product }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28 }}
-            className="aspect-[4/3] w-full object-cover lg:aspect-4/5"
+            className="aspect-4/3 w-full object-cover lg:aspect-4/5"
           />
         </AnimatePresence>
       </div>
 
-      {/* <div className="mt-3 flex gap-2 overflow-x-auto pb-0.5">
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-0.5">
         {product.images.map((src, i) => (
           <button
             key={src}
@@ -36,7 +37,7 @@ const ProductGallery = ({ product }) => {
             <img src={src} alt="" className="h-full w-full object-cover" />
           </button>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };
