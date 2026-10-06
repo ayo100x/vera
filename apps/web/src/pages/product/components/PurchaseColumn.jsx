@@ -1,14 +1,15 @@
 import { Check, Star } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
-const PurchaseColumn = ({ product, fromResults, match, market }) => {
+const PurchaseColumn = ({ product, fromResults, match, assessment }) => {
   const [quantity, setQuantity] = useState(1);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState(product.variants.sizes[1]);
 
   return (
-    <div className="lg:col-span-5">
+    <div className="lg:col-span-5 ">
       <div className="lg:sticky lg:top-24">
         <h1 className="font-display text-[1.7rem] leading-[1.12] tracking-tight md:text-[2rem]">
           {product.name}
@@ -16,7 +17,12 @@ const PurchaseColumn = ({ product, fromResults, match, market }) => {
 
         {/* Seller / rating line */}
         <div className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-vera-gray">
-          <span className="text-vera-black">{product.seller?.name}</span>
+          <Link
+            to={`/seller/${product.seller?.id}`}
+            className="text-vera-black underline underline-offset-4 decoration-vera-black"
+          >
+            {product.seller?.name}
+          </Link>
           {product.seller?.verified && (
             <span className="inline-flex items-center gap-1">
               <Check size={12} strokeWidth={2.25} />
@@ -83,15 +89,15 @@ const PurchaseColumn = ({ product, fromResults, match, market }) => {
                 VERA's take
               </p>
               <p className="mt-2.5 text-[13.5px] leading-relaxed text-vera-black">
-                {market?.verdict}
+                {assessment?.verdict}
               </p>
-              {market?.priceInsight && (
+              {assessment?.priceInsight && (
                 <p className="mt-2 text-[12.5px] text-vera-gray">
-                  {market.priceInsight}
+                  {assessment.priceInsight}
                 </p>
               )}
               <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
-                {(market?.insights || []).map((row) => (
+                {(assessment?.insights || []).map((row) => (
                   <div key={row.label}>
                     <p className="text-[11px] text-vera-gray">{row.label}</p>
                     <p className="mt-0.5 text-[13px] font-medium">
