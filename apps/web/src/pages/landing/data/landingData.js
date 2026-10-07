@@ -5,109 +5,81 @@ export const DEMO_OUTFIT = {
 
   items: [
     {
-      id: 1,
-      name: "Black oversized shirt",
-      price: 28000,
+      productId: 1,
       match: 94,
-      image:
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
     },
     {
-      id: 2,
-      name: "Cream relaxed trousers",
-      price: 31000,
+      productId: 2,
       match: 91,
-      image:
-        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
     },
     {
-      id: 3,
-      name: "Brown loafers",
-      price: 35000,
+      productId: 3,
       match: 96,
-      image:
-        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
     },
     {
-      id: 4,
-      name: "Gold minimal watch",
-      price: 42000,
+      productId: 4,
       match: 89,
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
     },
   ],
 };
 
 export const CHEAPER_ITEMS = [
   {
-    id: "c1",
-    name: "Black relaxed shirt",
-    price: 18500,
+    productId: 1,
     match: 88,
-    image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
   },
   {
-    id: "c2",
-    name: "Off-white wide trousers",
-    price: 22000,
+    productId: 2,
     match: 85,
-    image:
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
   },
   {
-    id: "c3",
-    name: "Tan slip-ons",
-    price: 24000,
+    productId: 6,
     match: 87,
-    image:
-      "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
   },
   {
-    id: "c4",
-    name: "Slim gold watch",
-    price: 24500,
+    productId: 4,
     match: 82,
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
   },
 ];
 
 export const PREMIUM_ITEMS = [
   {
-    id: "p1",
-    name: "Black Italian cotton shirt",
-    price: 52000,
+    productId: 1,
     match: 93,
-    image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80",
   },
   {
-    id: "p2",
-    name: "Cream tailored trousers",
-    price: 58000,
+    productId: 2,
     match: 91,
-    image:
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80",
   },
   {
-    id: "p3",
-    name: "Brown leather loafers",
-    price: 65000,
+    productId: 6,
     match: 95,
-    image:
-      "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400&q=80",
   },
   {
-    id: "p4",
-    name: "Gold dress watch",
-    price: 78000,
+    productId: 4,
     match: 90,
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
   },
 ];
+
+export const COMPLETE_LOOK = {
+  id: "cl1",
+
+  items: [
+    {
+      productId: 1,
+      current: true,
+    },
+    {
+      productId: 2,
+    },
+    {
+      productId: 6,
+    },
+    {
+      productId: 4,
+    },
+  ],
+};
 
 export const steps = [
   "VERA is looking at your image…",
