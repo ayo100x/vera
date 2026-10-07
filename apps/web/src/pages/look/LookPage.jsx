@@ -3,78 +3,104 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "../../components/layout/NavBar";
 import { LOOK_ITEMS } from "./data/outfitLookData";
+import { PRODUCTS } from "../product/data/productData";
+import Footer from "../../components/layout/Footer";
 
-// initially when page loads build looks - selections(quantity, suggested size, suggested colors) - returns object
+// build the looks
 const buildSelections = (items) => {
-  const next = {};    // create an empty object
-  items.forEach((item) => {     // for each item in the LOOK LIST
-    next[item.id] = { quantity: 1 };  // set a default quantity of 1 in the object - next[item.id] = {quantity: 1}
+  const next = {};
 
-    Object.entries(item.options || {}).forEach(([key, opt]) => {  
-      const ok = opt.values?.find(
-        (v) => v.value === opt.suggested && v.available
-      );
-      // console.log("type: ", ok)
-      next[item.id][key] = ok ? opt.suggested : null;
-    });
+  items.forEach((item) => {
+    const product = PRODUCTS[item.productId];
+
+    // Affiliate products are handled by the external retailer.
+    if (product.source.type === "affiliate") {
+      return;
+    }
+
+    // Marketplace products are handled by VERA.
+    next[item.id] = {
+      quantity: 1,
+    };
+
+    if (product.variants.sizes?.length) {
+      next[item.id].size = product.variants.sizes[0];
+    }
+
+    if (product.variants.colors?.length) {
+      next[item.id].color = product.variants.colors[0].name;
+    }
   });
+
   return next;
-}
+};
 
-function itemComplete(item, selection) {
-  return Object.entries(item.options || {}).every(([key, opt]) => {
-    if (!opt.required) return true;
-    const value = selection?.[key];
-    if (!value) return false;
-    return opt.values?.find((v) => v.value === value)?.available !== false;
-  });
-}
+const getOptions = (product) => {
+  if (product.source.type === "affiliate") {
+    return {};
+  }
 
-function missingLabels(item, selection) {
-  return Object.entries(item.options || {})
-    .filter(([key, opt]) => {
-      if (!opt.required) return false;
-      const value = selection?.[key];
-      const meta = opt.values?.find((v) => v.value === value);
-      return !value || meta?.available === false;
-    })
-    .map(([, opt]) => opt.label.toLowerCase());
-}
+  const options = {};
+
+  if (product.variants?.sizes?.length) {
+    options.size = {
+      label: "Size",
+      values: product.variants.sizes.map((size) => ({
+        value: size,
+        available: true,
+      })),
+    };
+  }
+
+  if (product.variants?.colors?.length) {
+    options.color = {
+      label: "Color",
+      values: product.variants.colors.map((color) => ({
+        value: color.name,
+        available: true,
+      })),
+    };
+  }
+
+  return options;
+};
 
 const LookPage = () => {
-  // selections from options (size / color)
   const [selections, setSelections] = useState(() =>
-    buildSelections(LOOK_ITEMS)
-  );
-  const [activeId, setActiveId] = useState(LOOK_ITEMS[0].id); // initial active id - first product
-  const [attempted, setAttempted] = useState(false);
-  const [added, setAdded] = useState(false);  // look added to bag? true or false
+    buildSelections(LOOK_ITEMS),
+  ); // build selections and returns an object
+
+  const [activeId, setActiveId] = useState(LOOK_ITEMS[0]?.id); // activeId - active look product
 
   const states = useMemo(
     () =>
-      LOOK_ITEMS.map((item) => ({
-        item,
-        selection: selections[item.id],
-        complete: itemComplete(item, selections[item.id]),
-        missing: missingLabels(item, selections[item.id]),
-      })),
-    [selections]
+      LOOK_ITEMS.map((item) => {
+        const product = PRODUCTS[item.productId];
+
+        return {
+          item,
+          product,
+          selection: selections[item.id],
+          source: product.source,
+        };
+      }),
+    [selections],
   );
-  console.log(states)
 
   const active = states.find((s) => s.item.id === activeId) || states[0];
-  const activeIndex = states.findIndex((s) => s.item.id === active.item.id);
-  const completeCount = states.filter((s) => s.complete).length;
+  const activeIndex = states.findIndex((s) => s.item.id === active?.item.id);
   const totalCount = LOOK_ITEMS.length;
-  const allComplete = completeCount === totalCount;
+  const activeOptions = active ? getOptions(active.product) : {};
 
-  const total = useMemo(
+  const estimatedTotal = useMemo(
     () =>
       LOOK_ITEMS.reduce((sum, item) => {
+        const product = PRODUCTS[item.productId];
         const qty = selections[item.id]?.quantity || 1;
-        return sum + item.price * qty;
-      }, 0), 
-    [selections]
+
+        return sum + product.price * qty;
+      }, 0),
+    [selections],
   );
 
   const setOption = (itemId, key, value) => {
@@ -99,307 +125,282 @@ const LookPage = () => {
     if (next) setActiveId(next.item.id);
   };
 
-  const handleAddLook = () => {
-    setAttempted(true);
-    if (!allComplete) {
-      const firstIncomplete = states.find((s) => !s.complete);
-      if (firstIncomplete) setActiveId(firstIncomplete.item.id);
+  const handleShopPiece = (item, source) => {
+    if (source.type === "marketplace") {
+      // addToBag({ productId, ...selections[item.id], meta: { fromLook: true } })
+      console.log("Add marketplace item to bag", {
+        productId: item.productId,
+        ...selections[item.id],
+      });
       return;
     }
 
-    const lineItems = LOOK_ITEMS.map((item) => {
-      const { quantity, ...options } = selections[item.id];
-      return {
-        productId: item.productId,
-        name: item.name,
-        price: item.price,
-        image: item.image,
-        quantity,
-        ...options,
-      };
-    });
+    const href = source.affiliateUrl || source.productUrl;
+    if (href) {
+      window.open(href, "_blank", "noopener,noreferrer");
+      return;
+    }
 
-    // addItemsToBag(lineItems)
-    console.log("Add look to bag", lineItems);
-    setAdded(true);
+    // Prototype fallback — wire to tracked affiliate destination later
+    console.log("Shop affiliate piece", {
+      productId: item.productId,
+      retailer: source.retailer,
+      selection: selections[item.id],
+    });
   };
+
+  if (!active) return null;
+
+  const isAffiliate = active.source.type === "affiliate";
+  const retailerLabel = active.source.retailer || "Retailer";
 
   return (
     <div className="min-h-screen bg-vera-offwhite text-vera-black">
       <NavBar />
 
-      <main className="mx-auto max-w-3xl px-4 pb-20 pt-16 md:px-5 md:pb-20 md:pt-20">
-        {/* Quiet introduction */}
+      <main className="mx-auto max-w-3xl px-4 pb-24 pt-16 md:px-5 md:pb-20 md:pt-20">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
+          transition={{ duration: 0.3 }}
           className="max-w-xl"
         >
-          <h1 className="font-display text-[1.8rem] leading-[1.1] tracking-tight md:text-[2.15rem]">
+          <h1 className="font-display text-[1.65rem] leading-[1.1] tracking-tight md:text-[1.9rem]">
             Your VERA Look
           </h1>
-          <p className="mt-3 max-w-md text-[14px] leading-relaxed text-vera-gray">
-            Four pieces, selected to work together. Review each one, set your
-            sizes, and add the whole look to your bag.
+          <p className="mt-2.5 max-w-md text-[13px] leading-relaxed text-vera-gray">
+            Pieces VERA selected to recreate the look. Choose your options, then
+            shop each piece.
           </p>
         </motion.div>
 
-        {/* THE LOOK — single editorial composition */}
+        {/* Active piece */}
         <div className="mt-8 md:mt-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={active.item.id}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.28 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.25 }}
               className="grid gap-5 md:grid-cols-12 md:gap-8"
             >
-              {/* Active product image */}
               <div className="md:col-span-6">
                 <Link
                   to={`/product/${active.item.productId}`}
                   className="block overflow-hidden rounded-xl bg-vera-warm"
                 >
                   <img
-                    src={active.item.image}
-                    alt={active.item.name}
-                    className="aspect-[4/3] w-full object-cover md:aspect-3/4"
+                    src={active.product.images[0]}
+                    alt={active.product.name}
+                    className="aspect-4/3 w-full object-cover md:aspect-3/4"
                   />
                 </Link>
               </div>
 
-              {/* Active product decisions */}
               <div className="flex flex-col justify-center md:col-span-6">
                 {active.item.badge && (
                   <p className="text-[11px] tracking-wide text-vera-gray">
                     {active.item.badge}
                   </p>
                 )}
-                {/* Product name */}
+
                 <Link
                   to={`/product/${active.item.productId}`}
-                  className="mt-1 block font-display text-[1.55rem] leading-tight tracking-tight transition hover:opacity-70 md:text-[1.75rem]"
+                  className="mt-1 block font-display text-[1.35rem] leading-tight tracking-tight transition hover:opacity-70 md:text-[1.5rem]"
                 >
-                  {active.item.name}
+                  {active.product.name}
                 </Link>
-                {/* Product price */}
-                <p className="mt-2 text-[15px] tabular-nums">
-                  ₦{active.item.price.toLocaleString()}
+
+                <p className="mt-1.5 text-[14px] tabular-nums">
+                  ₦{active.product.price.toLocaleString()}
                 </p>
 
-                <div className="mt-6 space-y-5">
-                  {Object.entries(active.item.options || {}).map(
-                    ([key, option]) => (
-                      <div key={key}>
-                        <div className="mb-2.5 flex items-baseline justify-between gap-3">
-                          <p className="text-[12px] tracking-wide text-vera-gray">
-                            {option.label}
-                          </p>
-                          {option.suggested &&
-                            active.selection?.[key] === option.suggested && (
-                              <p className="text-[11px] text-vera-gray">
-                                VERA’s suggestion
-                              </p>
-                            )}
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          {option.values.map((entry) => {
-                            const selected =
-                              active.selection?.[key] === entry.value;
-                            const disabled = !entry.available;
-                            return (
-                              <button
-                                key={entry.value}
-                                type="button"
-                                disabled={disabled}
-                                onClick={() =>
-                                  setOption(active.item.id, key, entry.value)
-                                }
-                                className={`min-w-11 rounded-full px-3.5 py-2 text-[13px] transition ${
-                                  disabled
-                                    ? "cursor-not-allowed border border-vera-border text-vera-gray line-through opacity-40"
-                                    : selected
-                                      ? "bg-vera-black text-white"
-                                      : "border border-vera-border bg-transparent text-vera-black hover:border-vera-black"
-                                }`}
-                              >
-                                {entry.value}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )
-                  )}
+                <p className="mt-2 text-[12px] text-vera-gray">
+                  {isAffiliate
+                    ? `${retailerLabel} · External retailer`
+                    : "VERA Marketplace"}
+                </p>
 
-                  <div>
-                    <p className="mb-2.5 text-[12px] tracking-wide text-vera-gray">
-                      Quantity
-                    </p>
-                    <div className="inline-flex items-center gap-4">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setQuantity(
-                            active.item.id,
-                            (active.selection?.quantity || 1) - 1
-                          )
-                        }
-                        className="text-[15px] text-vera-gray transition hover:text-vera-black"
-                      >
-                        −
-                      </button>
-                      <span className="min-w-[1.25rem] text-center text-[14px] tabular-nums">
-                        {active.selection?.quantity || 1}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setQuantity(
-                            active.item.id,
-                            (active.selection?.quantity || 1) + 1
-                          )
-                        }
-                        className="text-[15px] text-vera-gray transition hover:text-vera-black"
-                      >
-                        +
-                      </button>
+                {/* Options */}
+                <div className="mt-5 space-y-4">
+                  {Object.entries(activeOptions).map(([key, option]) => (
+                    <div key={key}>
+                      <div className="mb-2 flex items-baseline justify-between gap-3">
+                        <p className="text-[11px] tracking-wide text-vera-gray">
+                          {option.label}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {option.values.map((entry) => {
+                          const selected =
+                            active.selection?.[key] === entry.value;
+                          const disabled = !entry.available;
+                          return (
+                            <button
+                              key={entry.value}
+                              type="button"
+                              disabled={disabled}
+                              onClick={() =>
+                                setOption(active.item.id, key, entry.value)
+                              }
+                              className={`min-w-10 rounded-full px-3 py-1.5 text-[12px] transition ${
+                                disabled
+                                  ? "cursor-not-allowed border border-vera-border text-vera-gray line-through opacity-40"
+                                  : selected
+                                    ? "bg-vera-black text-white"
+                                    : "border border-vera-border bg-transparent text-vera-black hover:border-vera-black"
+                              }`}
+                            >
+                              {entry.value}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  ))}
+
+                  {!isAffiliate && (
+                    <div>
+                      <p className="mb-2 text-[11px] tracking-wide text-vera-gray">
+                        Quantity
+                      </p>
+
+                      <div className="inline-flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setQuantity(
+                              active.item.id,
+                              (active.selection?.quantity || 1) - 1,
+                            )
+                          }
+                          className="text-[14px] text-vera-gray transition hover:text-vera-black"
+                        >
+                          −
+                        </button>
+
+                        <span className="min-w-[1rem] text-center text-[13px] tabular-nums">
+                          {active.selection?.quantity || 1}
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setQuantity(
+                              active.item.id,
+                              (active.selection?.quantity || 1) + 1,
+                            )
+                          }
+                          className="text-[14px] text-vera-gray transition hover:text-vera-black"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Status + quiet forward nudge */}
-                <div className="mt-8 flex items-center justify-between gap-4 border-t border-vera-border pt-5">
-                  <p className="text-[13px] text-vera-gray">
-                    {active.complete
-                      ? "Ready"
-                      : attempted
-                        ? `Needs ${active.missing.join(" & ")}`
-                        : "Choose your options"}
-                  </p>
+                {/* Piece CTA */}
+                <div className="mt-6 space-y-2 border-t border-vera-border pt-5">
+                  <button
+                    type="button"
+                    onClick={() => handleShopPiece(active.item, active.source)}
+                    className="w-full rounded-full bg-vera-black py-2.5 text-[13px] text-white transition hover:bg-black md:w-auto md:px-6"
+                  >
+                    {isAffiliate ? `Shop at ${retailerLabel}` : "Add to bag"}
+                  </button>
 
-                  {activeIndex < totalCount - 1 && (
-                    <button
-                      type="button"
-                      onClick={goToNext}
-                      className="text-[13px] text-vera-black underline decoration-vera-border underline-offset-4 transition hover:decoration-vera-black"
+                  <div className="flex items-center justify-between gap-3 pt-1">
+                    <Link
+                      to={`/product/${active.item.productId}`}
+                      className="text-[12px] text-vera-gray transition hover:text-vera-black"
                     >
-                      Next piece
-                    </button>
-                  )}
+                      View product
+                    </Link>
+
+                    {activeIndex < totalCount - 1 && (
+                      <button
+                        type="button"
+                        onClick={goToNext}
+                        className="text-[12px] text-vera-black underline decoration-vera-border underline-offset-4 transition hover:decoration-vera-black"
+                      >
+                        Next piece
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Quiet piece navigation — the only other place the pieces appear */}
-        <div className="mx-auto mt-8 flex max-w-md justify-center gap-3 md:mt-10">
-          {states.map(({ item, complete }) => {
+        {/* Piece navigation */}
+        <div className="mx-auto mt-8 flex max-w-md justify-center gap-2.5 md:mt-10">
+          {states.map(({ item, product }) => {
             const isActive = item.id === activeId;
+
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => setActiveId(item.id)}
-                aria-label={item.name}
-                aria-current={isActive}
-                className="group flex flex-col items-center gap-2"
+                aria-label={product.name}
+                aria-current={isActive ? "true" : undefined}
+                className="group"
               >
                 <div
-                  className={`h-12 w-9 overflow-hidden rounded-md bg-vera-warm transition ${
+                  className={`h-11 w-8 overflow-hidden rounded-md bg-vera-warm transition md:h-12 md:w-9 ${
                     isActive
                       ? "ring-1 ring-vera-black"
-                      : "opacity-60 group-hover:opacity-100"
+                      : "opacity-55 group-hover:opacity-100"
                   }`}
                 >
                   <img
-                    src={item.image}
+                    src={product.images[0]}
                     alt=""
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <span
-                  className={`h-1 w-1 rounded-full transition ${
-                    complete ? "bg-vera-black" : "bg-vera-border"
-                  }`}
-                />
               </button>
             );
           })}
         </div>
 
-        {/* Closing action */}
-        <div className="mx-auto mt-10 max-w-md text-center md:mt-12">
-          <p className="text-[13px] text-vera-gray">
-            {allComplete
-              ? `${totalCount} pieces`
-              : `${completeCount} of ${totalCount} ready`}
+        {/* Estimated total — reference only */}
+        <div className="mx-auto mt-10 max-w-md border-t border-vera-border pt-6 text-center md:mt-12">
+          <p className="text-[12px] text-vera-gray">
+            {totalCount} pieces · Est. ₦{estimatedTotal.toLocaleString()}
           </p>
-          <p className="mt-1 font-display text-[1.8rem] tracking-tight tabular-nums md:text-[2rem]">
-            ₦{total.toLocaleString()}
+          <p className="mt-1 text-[11px] text-vera-gray">
+            Prices may vary by retailer.
           </p>
-
-          {attempted && !allComplete && (
-            <p className="mt-3 text-[13px] text-vera-black">
-              Finish the remaining selections to continue.
-            </p>
-          )}
-
-          <AnimatePresence>
-            {added && (
-              <motion.p
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-3 text-[13px] text-vera-gray"
-              >
-                Look added to your bag.
-              </motion.p>
-            )}
-          </AnimatePresence>
-
-          <button
-            type="button"
-            onClick={handleAddLook}
-            className="mt-5 hidden w-full rounded-full bg-vera-black py-3 text-[14px] text-white transition hover:bg-black md:inline-flex md:w-auto md:px-8 md:items-center md:justify-center"
-          >
-            {allComplete
-              ? "Add look to bag"
-              : attempted
-                ? "Finish selections"
-                : "Add look to bag"}
-          </button>
         </div>
       </main>
 
-      {/* Mobile sticky */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-vera-border bg-vera-offwhite/95 px-5 py-3 backdrop-blur-md md:hidden">
-        <div className="mx-auto flex max-w-5xl items-center gap-4">
-          <div className="min-w-0 flex-1">
-            <p className="text-[12px] text-vera-gray">
-              {allComplete
-                ? `${totalCount} pieces`
-                : `${completeCount}/${totalCount} ready`}
+      {/* Mobile summary — no multi-retailer checkout */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-vera-border bg-vera-offwhite/95 px-4 py-3 backdrop-blur-md md:hidden">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">
+          <div>
+            <p className="text-[11px] text-vera-gray">
+              {totalCount} pieces · Estimated
             </p>
-            <p className="text-[15px] font-medium tabular-nums">
-              ₦{total.toLocaleString()}
+            <p className="text-[14px] font-medium tabular-nums">
+              ₦{estimatedTotal.toLocaleString()}
             </p>
           </div>
           <button
             type="button"
-            onClick={handleAddLook}
-            className="shrink-0 rounded-full bg-vera-black px-5 py-3 text-[13px] text-white transition hover:bg-black"
+            onClick={() => handleShopPiece(active.item, active.source)}
+            className="shrink-0 rounded-full bg-vera-black px-4 py-2.5 text-[12px] text-white transition hover:bg-black"
           >
-            {allComplete
-              ? "Add look to bag"
-              : attempted
-                ? "Finish selections"
-                : "Add look to bag"}
+            {isAffiliate ? `Shop at ${retailerLabel}` : "Add to bag"}
           </button>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };
