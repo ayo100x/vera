@@ -8,9 +8,25 @@ import {
   PREMIUM_ITEMS,
   steps,
   OPTIONS,
+  COMPLETE_LOOK,
 } from "../data/landingData";
+import { PRODUCTS } from "../../product/data/productData";
 
 const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
+  const resolveProduct = (item) => {
+    const product = PRODUCTS[item.productId];
+    return {
+      ...product,
+      image: product.images[0],
+      match: item.match,
+      name: product.name,
+    };
+  };
+
+  const demoItems = DEMO_OUTFIT.items.map(resolveProduct);
+  const cheaperItems = CHEAPER_ITEMS.map(resolveProduct);
+  const premiumItems = PREMIUM_ITEMS.map(resolveProduct);
+
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams);
   const [image, setImage] = useState(null);
@@ -29,7 +45,6 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
   const [selected, setSelected] = useState(searchParams.get("mode") || null);
 
   const fileSelect = useRef(null);
-
 
   const startDemo = () => {
     effectiveScroll();
@@ -402,8 +417,8 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
                     className="text-[13px] text-vera-gray"
                   >
                     {selected === "cheaper" || selected === "premium"
-                      ? `${DEMO_OUTFIT.items.length} original matches`
-                      : `${DEMO_OUTFIT.items.length} pieces recognised`}
+                      ? `${demoItems.length} original matches`
+                      : `${demoItems.length} pieces recognised`}
                   </motion.p>
 
                   <motion.h3
@@ -449,7 +464,7 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
                     className="flex items-end gap-3"
                   >
                     <div className="flex gap-2">
-                      {DEMO_OUTFIT.items.map((item) => (
+                      {demoItems.map((item) => (
                         <div
                           key={item.id}
                           className="h-12 w-9 overflow-hidden rounded-md bg-vera-warm sm:h-14 sm:w-11"
@@ -486,7 +501,7 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
                     /* Full look — one calm composition */
                     <div className="mx-auto max-w-xl text-center">
                       <div className="flex justify-center gap-1.5 sm:gap-2.5">
-                        {DEMO_OUTFIT.items.map((item, i) => (
+                        {demoItems.map((item, i) => (
                           <motion.div
                             key={item.id}
                             initial={{ opacity: 0, y: 8 }}
@@ -507,38 +522,40 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
 
                       <p className="mt-6 font-display text-[1.8rem] tracking-tight tabular-nums">
                         ₦
-                        {DEMO_OUTFIT.items
+                        {demoItems
                           .reduce((sum, item) => sum + item.price, 0)
                           .toLocaleString()}
                       </p>
 
                       <p className="mx-auto mt-2 max-w-sm text-[13px] leading-relaxed text-vera-gray">
-                        {DEMO_OUTFIT.items.map((item) => item.name).join(" · ")}
+                        {demoItems.map((item) => item.name).join(" · ")}
                       </p>
 
-                      <button className="mt-6 rounded-full bg-vera-black px-7 py-2.5 text-[13px] text-white transition hover:bg-black">
-                        Get the full look
-                      </button>
+                      <Link to={`/look/${COMPLETE_LOOK.id}`}>
+                        <button className="mt-6 rounded-full bg-vera-black px-7 py-2.5 text-[13px] text-white transition hover:bg-black">
+                          Get the full look
+                        </button>
+                      </Link>
                     </div>
                   ) : (
                     /* Product grid — closest / cheaper / premium */
                     <div
                       className={`grid gap-x-3 gap-y-5 ${
                         (selected === "cheaper"
-                          ? CHEAPER_ITEMS
+                          ? cheaperItems
                           : selected === "premium"
-                            ? PREMIUM_ITEMS
-                            : DEMO_OUTFIT.items
+                            ? premiumItems
+                            : demoItems
                         ).length <= 2
                           ? "mx-auto max-w-sm grid-cols-2"
                           : "grid-cols-2 md:grid-cols-4"
                       }`}
                     >
                       {(selected === "cheaper"
-                        ? CHEAPER_ITEMS
+                        ? cheaperItems
                         : selected === "premium"
-                          ? PREMIUM_ITEMS
-                          : DEMO_OUTFIT.items
+                          ? premiumItems
+                          : demoItems
                       ).map((item, i) => (
                         // product - card
                         <Link
@@ -600,8 +617,7 @@ const Hero = ({ heroImage, resetHeroImage, effectiveScroll }) => {
                       <button
                         key={opt.key}
                         onClick={() => {
-                          (setSelected(opt.key),
-                            effectiveScroll());
+                          (setSelected(opt.key), effectiveScroll());
                         }}
                         className={`rounded-full px-4 py-2 text-[13px] transition ${
                           selected === opt.key
